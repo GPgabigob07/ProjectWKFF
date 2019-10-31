@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data class="PlayerBattleBinder">
+        <!--import type="org.gpginc.ntateam.projectwkff.runtime.Clazz"/-->
+        <!--import type="org.gpginc.ntateam.projectwkff.runtime.Kingdom"/-->
+        <variable
+            name="player"
+            type="org.gpginc.ntateam.projectwkff.runtime.Player" />
+        <import type="android.view.View"/>
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="2dp">
+
+                        <ImageView
+                            android:id="@+id/kingdom_emblem"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:src="@{player.kingdom.icon}" />
+
+                        <TextView
+                            android:id="@+id/kingdom_name"
+                            android:layout_width="193dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="@{player.kingdom.name}"
+                            android:textSize="24sp"
+                            app:autoSizeTextType="none" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="2dp">
+
+                        <ImageView
+                            android:id="@+id/clazz_icon"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:src="@{player.clazz.icon}" />
+
+                        <TextView
+                            android:id="@+id/clazz_name"
+                            android:layout_width="193dp"
+                            android:layout_height="match_parent"
+                            android:text="@{player.clazz.name}"
+                            android:textSize="24sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="11dp"
+                    android:layout_height="match_parent" />
+                <ImageView
+                    android:id="@+id/field_emblem"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp"
+                    android:src="@{player.fieldIcon}" />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="33dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_skils"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/skills"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="@{player.clazz.hasPassiveOrAttackTrigger ? View.VISIBLE : View.GONE}">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_skils_passives"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/skills_passives"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

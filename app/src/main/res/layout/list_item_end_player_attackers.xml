@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data class="EndPlayerAttackers">
+        <variable
+            name="attacker"
+            type="org.gpginc.ntateam.projectwkff.runtime.BaseAttacker" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="105dp"
+        android:layout_height="105dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            app:cardBackgroundColor="?android:attr/windowBackground"
+            app:cardElevation="4dp"
+            app:cardMaxElevation="6dp"
+            app:cardCornerRadius="20dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent">
+
+                <ImageView
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:src="@{attacker.relativeKingdom.icon, default=@drawable/ohxer_emblem}"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/end_kgn"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/end_kgn"
+                    android:layout_centerHorizontal="true"
+                    android:autoSizeMinTextSize="10sp"
+                    android:autoSizeMaxTextSize="14sp"
+                    android:text="@{attacker.relativeName, default=somename}"/>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+
+    </RelativeLayout>
+</layout>

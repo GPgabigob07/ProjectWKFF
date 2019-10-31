@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data class="ListItemEventsBinding">
+        <variable
+            name="event"
+            type="org.gpginc.ntateam.projectwkff.runtime.Event" />
+        <variable
+            name="player"
+            type="org.gpginc.ntateam.projectwkff.runtime.Player" />
+        <import type="android.view.View"/>
+        <import type="org.gpginc.ntateam.projectwkff.runtime.dragons.Dragon"/>
+        <import type="org.gpginc.ntateam.projectwkff.R"/>
+        <import type="org.gpginc.ntateam.projectwkff.runtime.dragons.events.BaseDragonEvent"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/o_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{event.name, default=evntname}"
+            android:textSize="26sp"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
+
+        <TextView
+            android:id="@+id/o_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="21sp"
+            android:text="somedescription" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
+
+        <LinearLayout
+            android:id="@+id/objective_target"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="@{event instanceof BaseDragonEvent ? View.VISIBLE : event.owner.equals(player) ? View.VISIBLE : View.GONE}">
+
+            <TextView
+                android:id="@+id/target_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@{event.isAttacher ? @string/label_owner : event instanceof BaseDragonEvent ? @string/label_kingdom : @string/label_target, default=nothinghere}"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/target_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@{event instanceof BaseDragonEvent ? event.dragon.kingdom.name()  : event.target.name, default=someplayername}" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/dragon_c_power"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progress="@{event.baseOwner!= null &amp;&amp; event.baseOwner instanceof Dragon ? event.dragon.power : 0}"
+            android:max="10000"
+            android:visibility="@{event.baseOwner!= null &amp;&amp; event.baseOwner instanceof Dragon ? View.VISIBLE : View.GONE}"/>
+
+    </LinearLayout>
+</layout>

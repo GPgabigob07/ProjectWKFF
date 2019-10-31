@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="activity"
+            type="org.gpginc.ntateam.projectwkff.MainActivity" />
+    </data>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@drawable/tab_shape"
+                app:popupTheme="@style/AppTheme" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <include
+            android:id="@+id/content"
+            layout="@layout/content_main" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end|right"
+            android:gravity="center_horizontal"
+            android:baselineAligned="false">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:orientation="vertical">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/invisiblefab3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/fab_margin"
+                    android:layout_weight="1"
+                    android:visibility="invisible"
+                    app:fabSize="mini"
+                    app:srcCompat="@android:drawable/stat_sys_download" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/invisiblefab2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/fab_margin"
+                    android:layout_weight="1"
+                    android:visibility="invisible"
+                    app:fabSize="mini"
+                    app:srcCompat="@android:drawable/stat_sys_download" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/invisiblefab1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/fab_margin"
+                    android:layout_weight="1"
+                    android:visibility="invisible"
+                    app:fabSize="mini"
+                    app:srcCompat="@android:drawable/stat_sys_download" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_add_local_player"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/fab_margin"
+                    android:layout_weight="0.9"
+                    android:onClick="@{() -> activity.inputNewPlayer()}"
+                    android:tint="@android:color/holo_blue_dark"
+                    app:fabSize="mini"
+                    app:srcCompat="@android:drawable/ic_input_add" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:orientation="vertical">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/settings_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/fab_margin"
+                    android:layout_weight="1"
+                    android:onClick="openSettings"
+                    android:visibility="visible"
+                    app:fabSize="mini"
+                    app:srcCompat="@drawable/ic_config"
+                    tools:ignore="NestedWeights" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_add_external_player"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/fab_margin"
+                    app:fabSize="mini"
+                    app:srcCompat="@android:drawable/stat_sys_upload" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_dowload_cloud_players"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/fab_margin"
+                    app:fabSize="mini"
+                    app:srcCompat="@android:drawable/stat_sys_download" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right|end"
+                    android:layout_margin="@dimen/fab_margin"
+                    android:onClick="openAndShow"
+                    android:tint="@android:color/white"
+                    app:fabSize="normal"
+                    app:maxImageSize="32dp"
+                    app:srcCompat="@android:drawable/ic_input_add" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/start_btn"
+            android:layout_width="152dp"
+            android:layout_height="101dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="-5dp"
+            android:onClick="startGame"
+            app:srcCompat="@drawable/start_btn" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

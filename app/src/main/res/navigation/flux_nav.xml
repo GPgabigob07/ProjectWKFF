@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/flux_nav"
+    app:startDestination="@id/prePlayer">
+
+    <fragment
+        android:id="@+id/currentPlayerFragment"
+        android:name="org.gpginc.ntateam.projectwkff.ui.fragments.CurrentPlayerFragment"
+        tools:layout="@layout/fragment_current_player" >
+        <action
+            android:id="@+id/action_currentPlayerFragment_to_currentSkillFragment"
+            app:destination="@id/currentSkillFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/currentPlayerFragment" />
+        <action
+            android:id="@+id/action_currentPlayerFragment_to_prePlayer"
+            app:destination="@id/prePlayer"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_currentPlayerFragment_to_damageStepFragment"
+            app:destination="@id/damageStepFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_currentPlayerFragment_to_gameEnd"
+            app:destination="@id/gameEnd"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/currentSkillFragment"
+        android:name="org.gpginc.ntateam.projectwkff.ui.fragments.CurrentSkillFragment"
+        tools:layout="@layout/fragment_current_skill" >
+        <action
+            android:id="@+id/action_currentSkillFragment_self"
+            app:destination="@id/currentSkillFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_currentSkillFragment_to_prePlayer"
+            app:destination="@id/prePlayer"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_currentSkillFragment_to_damageStepFragment"
+            app:destination="@id/damageStepFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_currentSkillFragment_to_gameEnd"
+            app:destination="@id/gameEnd"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/prePlayer"
+        android:name="org.gpginc.ntateam.projectwkff.ui.fragments.PrePlayer">
+        <action
+            android:id="@+id/action_prePlayer_to_currentPlayerFragment"
+            app:destination="@id/currentPlayerFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_prePlayer_to_damageStepFragment"
+            app:destination="@id/damageStepFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_prePlayer_to_gameEnd2"
+            app:destination="@id/gameEnd"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/damageStepFragment"
+        android:name="org.gpginc.ntateam.projectwkff.ui.fragments.DamageStepFragment"
+        >
+        <action
+            android:id="@+id/action_damageStepFragment_to_prePlayer"
+            app:destination="@id/prePlayer"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_damageStepFragment_to_gameEnd"
+            app:destination="@id/gameEnd"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/gameEnd"
+        android:name="org.gpginc.ntateam.projectwkff.ui.fragments.GameEnd">
+    </fragment>
+</navigation>

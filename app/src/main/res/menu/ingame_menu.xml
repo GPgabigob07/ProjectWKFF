@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/force_finish"
+        android:contentDescription="@string/menu_ff_descr"
+        android:icon="@drawable/ic_home_page"
+        android:menuCategory="system"
+        android:title="@string/menu_force_finish_label" />
+</menu>

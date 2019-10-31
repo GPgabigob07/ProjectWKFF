@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="effect"
+            type="org.gpginc.ntateam.projectwkff.runtime.Effect" />
+        <import type="org.gpginc.ntateam.projectwkff.runtime.effects.Reincarnation"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!--android:background="@drawable/backgorund_shape"-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/efx_icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@{effect.icon, default=@drawable/aurashell_icon}" />
+
+            <TextView
+                android:id="@+id/efx_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:text="@{effect.name, default=somename}"
+                android:textSize="30sp"
+                android:layout_gravity="center_vertical"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/efx_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@{effect.description, default=somedescriptio}"
+            android:textSize="20sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/left_turns_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.25"
+                android:paddingStart="5dp"
+                android:text="@{effect instanceof Reincarnation ? @string/times_left : @string/left_turns, default=turns_left}"
+                android:textSize="24sp"
+                tools:ignore="NestedWeights" />
+
+            <TextView
+                android:id="@+id/left_turns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.75"
+                android:textSize="24sp"
+                android:text="@{effect.infinite ? @string/label_infinite : String.valueOf(effect.currentUsages)}"/>
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.25" />
+
+    </LinearLayout>
+</layout>

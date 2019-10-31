@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.fragments.GameEnd"
+    tools:showIn="@layout/fragment_game_end">
+    <data>
+        <variable
+            name="event"
+            type="org.gpginc.ntateam.projectwkff.runtime.Event" />
+    </data>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/label_end_cause"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_evtthatcauseend"
+                android:textColor="?attr/colorAccent"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <include
+                android:id="@+id/endevnt"
+                layout="@layout/list_item_current_player_events"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
+
+            <pl.droidsonroids.gif.GifImageView
+                android:layout_width="match_parent"
+                android:layout_height="156dp"
+                android:adjustViewBounds="true"
+                android:drawingCacheQuality="auto"
+                android:src="@drawable/winner_gif" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/winners"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/list_item_final_player_status" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

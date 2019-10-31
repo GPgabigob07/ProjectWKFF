@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="skill"
+            type="org.gpginc.ntateam.projectwkff.runtime.ClazzSkill"/>
+        <variable
+            name="RES"
+            type="org.gpginc.ntateam.projectwkff.GameFlux" />
+        <import type="android.view.View"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp">
+
+        <ImageView
+            android:id="@+id/skll_icon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@{skill.icon}"
+            android:tint="@{!skill.needIconTint ? android.R.color.transparent : RES.darkTheme ? @color/whiteBackgroundText : @color/blackBackgroundText}" />
+
+        <TextView
+            android:id="@+id/skill_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@{skill.name}"
+            android:textSize="22sp"
+            android:gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/skill_counter_times"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@{@string/formatter_skill_counter_times(String.valueOf(skill.counteredTimes), String.valueOf(skill.maxCounterTimes))}"
+            android:visibility="@{skill.counter ? View.VISIBLE : View.GONE}" />
+    </LinearLayout>
+</layout>

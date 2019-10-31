@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="org.gpginc.ntateam.projectwkff.runtime.Effect"/>
+        <variable
+            name="item"
+            type="org.gpginc.ntateam.projectwkff.runtime.util.EffectWalet.EffectWaletItem" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@{item.item.icon}"
+            android:id="@+id/efx_wallet_icn"/>
+
+        <TextView
+            android:id="@+id/efx_wallet_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@{item.item.name}"
+            android:textAlignment="gravity"
+            android:textColor="@color/colorAccent"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/efx_wallet_count"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@{@string/list_item_wallet_count_format(String.valueOf(item.count))}"
+            android:textAlignment="gravity"
+            android:textColor="@color/colorAccent"
+            android:textSize="24sp" />
+    </LinearLayout>
+</layout>

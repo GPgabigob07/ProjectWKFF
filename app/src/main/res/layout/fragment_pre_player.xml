@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="frag"
+            type="org.gpginc.ntateam.projectwkff.ui.fragments.PrePlayer" />
+        <variable
+            name="activity"
+            type="org.gpginc.ntateam.projectwkff.GameFlux" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/icon_ohxer"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginEnd="50dp"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/ohxer_emblem" />
+
+        <ImageView
+            android:id="@+id/icon_camelot"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="50dp"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/camelot_emblem" />
+
+        <ImageView
+            android:id="@+id/switcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> frag.switches()}"
+            android:padding="5dp"
+            app:srcCompat="@drawable/shields"
+            style="@style/imageview" />
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/label_extra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme" />
+
+        <Button
+            android:id="@+id/show_player"
+            style="?attr/actionButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:onClick="@{() -> activity.goNext()}"
+            android:text="@string/label_show" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:indeterminate="true" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data class="ListItemSPlayer">
+        <variable
+            name="player"
+            type="org.gpginc.ntateam.projectwkff.runtime.Player" />
+        <variable
+            name="holder"
+            type="org.gpginc.ntateam.projectwkff.ui.widget.adapters.PlayerSelectionAdapter.ItemPlayerSelectable" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/lay"
+        android:layout_height="wrap_content"
+        android:padding="3dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@{holder.showNames ? player.name : @string/label_player}"
+            android:textSize="24sp"
+            android:id="@+id/player_item_name"/>
+    </LinearLayout>
+</layout>
