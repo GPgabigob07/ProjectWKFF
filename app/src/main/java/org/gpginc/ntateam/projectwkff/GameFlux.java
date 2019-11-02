@@ -4,25 +4,32 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.RecyclerView;
 
+import org.apache.commons.collections4.map.LinkedMap;
 import org.gpginc.ntateam.projectwkff.databinding.ActivityGameFluxBinding;
 import org.gpginc.ntateam.projectwkff.runtime.BaseAttacker;
 import org.gpginc.ntateam.projectwkff.runtime.ClazzSkill;
+import org.gpginc.ntateam.projectwkff.runtime.Effect;
 import org.gpginc.ntateam.projectwkff.runtime.Event;
 import org.gpginc.ntateam.projectwkff.runtime.Main;
 import org.gpginc.ntateam.projectwkff.runtime.Player;
 import org.gpginc.ntateam.projectwkff.runtime.dragons.Dragon;
 import org.gpginc.ntateam.projectwkff.runtime.util.enums.EventHandler;
+import org.gpginc.ntateam.projectwkff.ui.fragments.PlayerInfosFragments;
+import org.gpginc.ntateam.projectwkff.ui.widget.adapters._deloggerAdapter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,6 +40,8 @@ import java.util.Random;
 
 public class GameFlux extends BaseAppActivity {
 
+    public static final FluxLog LOG = new FluxLog();
+
     public final ArrayList<Player> PLAYERS = new ArrayList<>();
     public final ArrayList<Dragon> DRAGONS = new ArrayList<>();
     public final Map<Player, Integer> DEAD_PLAYERS = new HashMap<>();
@@ -40,6 +49,7 @@ public class GameFlux extends BaseAppActivity {
     public final List<Event> EVENTS = new ArrayList<>();
     public Integer currentPlayerIndex;
     public Integer currentTurn;
+    public PlayerInfosFragments LOGGERFRAG = PlayerInfosFragments.newInstance(7097);
    // protected final DragonHandler dragonHandler = new DragonHandler(this);
 
     public NavController navController;
@@ -112,7 +122,7 @@ public class GameFlux extends BaseAppActivity {
         if(currentPlayerIndex < PLAYERS.size())
         {
            // currentPlayerIndex++;
-            Log.w("LOG DEBUG:", GONE.size() + " / " +DEAD_PLAYERS.size() + "  -  " + PLAYERS.size());
+            LOG.d("LOG DEBUG:", GONE.size() + " / " +DEAD_PLAYERS.size() + "  -  " + PLAYERS.size());
             switch(navController.getCurrentDestination().getId())
             {
                 case R.id.prePlayer:
@@ -133,7 +143,7 @@ public class GameFlux extends BaseAppActivity {
                     break;
             }
             setTitle(CP().getName());
-            Log.wtf("GAME FLUX CALLER: CURRENT PLAYER: -*-*-*-*-*-*-*- ",PLAYERS.get(currentPlayerIndex).getName());
+            LOG.wtf("GAME FLUX CALLER: CURRENT PLAYER: -*-*-*-*-*-*-*- ",PLAYERS.get(currentPlayerIndex).getName());
         }
         else
         {
@@ -190,21 +200,21 @@ public class GameFlux extends BaseAppActivity {
         {
             if(((Event) e).isAttacher)
             {
-                Log.v("EVENT SUBSEC LOADER ", "EVENT "+getResources().getString(((Event) e).getName())+" OWNER = " + ((Event) e).getOwner().getName());
+                LOG.d("EVENT SUBSEC LOADER ", "EVENT "+getResources().getString(((Event) e).getName())+" OWNER = " + ((Event) e).getOwner().getName());
             } else if(((Event) e).needPlayers) {
-                Log.v("EVENT SUBSEC LOADER ", "EVENT " + getResources().getString(((Event) e).getName()) + " OWNER = " + ((Event) e).getOwner().getName());
-                Log.v("EVENT SUBSEC LOADER ", "EVENT " + getResources().getString(((Event) e).getName()) + " TARGET = " + ((Event) e).getTarget().getName());
+                LOG.d("EVENT SUBSEC LOADER ", "EVENT " + getResources().getString(((Event) e).getName()) + " OWNER = " + ((Event) e).getOwner().getName());
+                LOG.d("EVENT SUBSEC LOADER ", "EVENT " + getResources().getString(((Event) e).getName()) + " TARGET = " + ((Event) e).getTarget().getName());
 
 
             }
-            Log.v("EVENT LOADER {"+e.getClass().getSimpleName()+"}", "LOADS WITH SUCCESS!!");
+            LOG.v("EVENT LOADER {"+e.getClass().getSimpleName()+"}", "LOADS WITH SUCCESS!!");
             if (e.getHandler().equals(EventHandler.START_LOOP_EVENT)) {
                 for (Player p : PLAYERS) {
                     if (e.check(p)) e.exe(p, this);
                 }
             }
         }
-        PLAYERS.forEach(p -> p.getEffects().stream().filter(e -> e.isInstaEffect()).forEach(e2 -> e2.apply(p, currentTurn)));
+        PLAYERS.forEach(p -> p.getEffects().stream().filter(Effect::isInstaEffect).forEach(e2 -> e2.apply(p, currentTurn)));
     }
     public Player CP()
     {
@@ -256,6 +266,80 @@ public class GameFlux extends BaseAppActivity {
     public Dragon dragon(Dragon dragon)
     {
         return DRAGONS.stream().filter(d -> d.equals(dragon)).findFirst().get();
+    }
+
+    public static class FluxLog
+    {
+        public final LinkedMap<String, Integer> loggerout = new LinkedMap<>();
+
+        public static final int V = 0;
+        public static final int D = 1;
+        public static final int W = 2;
+
+        private _deloggerAdapter adapter;
+        private RecyclerView view;
+
+        public RecyclerView getView() {
+            return view;
+        }
+
+        public FluxLog setView(RecyclerView view) {
+            this.view = view;
+            return this;
+        }
+
+        public _deloggerAdapter getAdapter() {
+            return adapter;
+        }
+
+        public FluxLog setAdapter(_deloggerAdapter adapter) {
+            this.adapter = adapter;
+            return this;
+        }
+
+        String ar(String... a)
+        {
+            StringBuilder b = new StringBuilder();
+            for(String s : a) b.append(s).append("::");
+            return b.toString();
+        }
+        public void v(String tag, String msg)
+        {
+            Log.v("LOGG{}:: "+tag, msg);
+            this.loggerout.put(ar(tag, msg), V);
+            wrapMap();
+        }
+        public void d(String tag, String msg)
+        {
+            Log.d(tag, msg);
+            this.loggerout.put(ar(tag, msg), D);
+            wrapMap();
+
+        }
+        public void wtf(String tag, String msg)
+        {
+            Log.wtf(tag, msg);
+            this.loggerout.put(ar(tag, msg), W);
+            wrapMap();
+        }
+        public void w(String tag, String msg)
+        {
+            Log.wtf(tag, msg);
+            this.loggerout.put(ar(tag, msg), W);
+            wrapMap();
+        }
+
+        void wrapMap()
+        {
+            if(this.adapter!=null)
+            {
+                this.adapter = new _deloggerAdapter().setmMap(loggerout);
+                this.view.setAdapter(this.adapter);
+            }
+        }
+
+        @IntDef({V,D,W})
+        private @interface LogType{}
     }
 }
 

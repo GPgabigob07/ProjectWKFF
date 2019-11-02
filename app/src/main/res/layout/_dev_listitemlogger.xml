@@ -1,4 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="output"
+            type="String" />
+        <variable
+            name="typo"
+            type="Integer" />
+        <import type="org.gpginc.ntateam.projectwkff.GameFlux.FluxLog"/>
+    </data>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="90dp"
+        android:padding="4dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardMaxElevation="6dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="15dp"
+            android:layout_centerInParent="true"
+            app:cardBackgroundColor="?android:attr/windowBackground"
+            android:outlineAmbientShadowColor="@android:color/holo_purple">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/logtypenamespace"
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"
+                    android:text="@{typo == FluxLog.V ? @string/v : typo == FluxLog.W ? @string/w : typo == FluxLog.D ? @string/d : @string/v, default=T }"
+                    android:gravity="center"
+                    android:layout_marginStart="1dp"
+                    android:textSize="20sp"
+                    android:textColor="?attr/colorError"
+                    android:background="@{typo == FluxLog.V ? @android:color/holo_purple : typo == FluxLog.W ? @android:color/holo_red_dark : typo == FluxLog.D ? @android:color/holo_blue_bright : @color/colorAccent, default=@android:color/holo_purple}"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/logtypenamespace"
+                    android:layout_marginStart="2dp"
+                    android:text="@{output, default=stringoutputmessage}"
+                    android:textSize="17sp"
+                    android:autoSizeTextType="uniform"/>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
 </layout>

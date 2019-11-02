@@ -32,10 +32,10 @@ public class DragonHandler
     void charge()
     {
         if(binder != null)binder.dragonCPower.setProgress(this.dragon.power);
-        //Log.v(this.getClass().getSimpleName(), "START CHARGING");
+        //LOG.v(this.getClass().getSimpleName(), "START CHARGING");
         if (dragon.power < 10000) {
             if(res.navController.getCurrentDestination().getId()!= R.id.prePlayer && res.navController.getCurrentDestination().getId()!=R.id.damageStepFragment) this.dragon.power+=4;
-          //  Log.w("CHARGING: ", dragon.getNameAsString()+"{power = "+dragon.power +"}");
+          //  LOG.w("CHARGING: ", dragon.getNameAsString()+"{power = "+dragon.power +"}");
             CHARGER.postDelayed(charger, 100);
         } else CHARGER.removeCallbacks(charger);
     }

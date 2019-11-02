@@ -63,6 +63,7 @@ public class CurrentPlayerFragment extends BaseFluxFrag
         CurrentPlayerTabsAdapter adapter = new CurrentPlayerTabsAdapter(RES.getSupportFragmentManager());
         adapter.add(PlayerInfosFragments.newInstance(0), RES.getResources().getString(R.string.label_status));
         adapter.add(PlayerInfosFragments.newInstance(1), RES.getResources().getString(R.string.label_battle));
+        if(RES.allDebugEnabled || RES.CP().isDev) adapter.add(PlayerInfosFragments.newInstance(7097), RES.getResources().getString(R.string.label_debug));
 
         binder.pager.setAdapter(adapter);
         binder.tabs.setupWithViewPager(binder.pager);

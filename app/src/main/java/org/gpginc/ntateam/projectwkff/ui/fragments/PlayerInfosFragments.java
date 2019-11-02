@@ -12,12 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.gpginc.ntateam.projectwkff.R;
+import org.gpginc.ntateam.projectwkff.databinding.DevloggerBinding;
 import org.gpginc.ntateam.projectwkff.databinding.PlayerBattleBinder;
 import org.gpginc.ntateam.projectwkff.databinding.PlayerStatusBinder;
 import org.gpginc.ntateam.projectwkff.runtime.util.Util;
 import org.gpginc.ntateam.projectwkff.ui.widget.adapters.EffectsAdapter;
 import org.gpginc.ntateam.projectwkff.ui.widget.adapters.EventsAdapter;
 import org.gpginc.ntateam.projectwkff.ui.widget.adapters.SkillAdapter;
+import org.gpginc.ntateam.projectwkff.ui.widget.adapters._deloggerAdapter;
 
 public class PlayerInfosFragments extends BaseFluxFrag
 {
@@ -64,6 +66,17 @@ public class PlayerInfosFragments extends BaseFluxFrag
                 }
 
                 return battle.getRoot();
+            case 7097:
+                DevloggerBinding binder = DataBindingUtil.inflate(inflater, R.layout._devlogger, container, false);
+                _deloggerAdapter log = new _deloggerAdapter();
+                log.setmMap(RES.LOG.loggerout);
+                RES.LOG.setAdapter(log);
+                RES.LOG.setView(binder.logger);
+
+                binder.logger.setLayoutManager(new LinearLayoutManager(RES, RecyclerView.VERTICAL, true));
+                binder.logger.setAdapter(log);
+
+                return binder.getRoot();
             default : return super.onCreateView(inflater, container, savedInstanceState);
         }
     }

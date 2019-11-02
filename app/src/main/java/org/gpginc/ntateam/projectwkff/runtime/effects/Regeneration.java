@@ -2,7 +2,7 @@ package org.gpginc.ntateam.projectwkff.runtime.effects;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
+import static org.gpginc.ntateam.projectwkff.GameFlux.LOG;
 
 import org.gpginc.ntateam.projectwkff.R;
 import org.gpginc.ntateam.projectwkff.runtime.Effect;
@@ -45,7 +45,7 @@ public class Regeneration extends Effect {
     @Override
     public void antidote(Player p) {
         //No inspect antidote, note, regen don't change any player attribute, just impeach damage
-        Log.wtf(this.getClass().getSimpleName(), "ANTIDOTE SET TO " + p.toString());
+        LOG.wtf(this.getClass().getSimpleName(), "ANTIDOTE SET TO " + p.toString());
     }
 
     @Override

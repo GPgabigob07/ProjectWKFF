@@ -1,5 +1,6 @@
 package org.gpginc.ntateam.projectwkff.runtime.skills;
 
+import android.graphics.PorterDuff;
 import android.os.Parcel;
 import android.view.View;
 
@@ -11,7 +12,6 @@ import org.gpginc.ntateam.projectwkff.R;
 import org.gpginc.ntateam.projectwkff.databinding.SkillBinder;
 import org.gpginc.ntateam.projectwkff.databinding.SkillLayoutChangeFieldBinding;
 import org.gpginc.ntateam.projectwkff.runtime.ClazzSkill;
-import org.gpginc.ntateam.projectwkff.runtime.Main;
 import org.gpginc.ntateam.projectwkff.ui.fragments.BaseFluxFrag;
 import org.gpginc.ntateam.projectwkff.ui.widget.dialogs.MessageDialog;
 
@@ -65,19 +65,19 @@ public class ChangePosition extends ClazzSkill
     protected void unmarkAll(SkillBinder b, SkillLayoutChangeFieldBinding b1)
     {
         checked = -1;
-        b1.fbtn1.setColorFilter(b.getRES().RES.getResources().getColor(android.R.color.transparent, null));
-        b1.fbtn2.setColorFilter(b.getRES().RES.getResources().getColor(android.R.color.transparent, null));
-        b1.fbtn3.setColorFilter(b.getRES().RES.getResources().getColor(android.R.color.transparent, null));
-        b1.fbtn4.setColorFilter(b.getRES().RES.getResources().getColor(android.R.color.transparent, null));
+        b1.fbtn1.clearColorFilter();
+        b1.fbtn2.clearColorFilter();
+        b1.fbtn3.clearColorFilter();
+        b1.fbtn4.clearColorFilter();
     }
     protected void mark(View v, SkillBinder b, SkillLayoutChangeFieldBinding b1)
     {
         switch(v.getId())
         {
-            case R.id.fbtn1: b1.fbtn1.setColorFilter(b.getRES().RES.getResources().getColor(android.R.color.holo_red_dark, null)); checked = 0; break;
-            case R.id.fbtn2: b1.fbtn2.setColorFilter(b.getRES().RES.getResources().getColor(android.R.color.holo_red_dark, null)); checked = 1; break;
-            case R.id.fbtn3: b1.fbtn3.setColorFilter(b.getRES().RES.getResources().getColor(android.R.color.holo_red_dark, null)); checked = 2; break;
-            case R.id.fbtn4: b1.fbtn4.setColorFilter(b.getRES().RES.getResources().getColor(android.R.color.holo_red_dark, null)); checked = 3; break;
+            case R.id.fbtn1: b1.fbtn1.setColorFilter(b.getRES().RES.getResources().getColor(android.R.color.holo_red_dark, null), PorterDuff.Mode.SRC_ATOP); checked = 0; break;
+            case R.id.fbtn2: b1.fbtn2.setColorFilter(b.getRES().RES.getResources().getColor(android.R.color.holo_red_dark, null), PorterDuff.Mode.SRC_ATOP); checked = 1; break;
+            case R.id.fbtn3: b1.fbtn3.setColorFilter(b.getRES().RES.getResources().getColor(android.R.color.holo_red_dark, null), PorterDuff.Mode.SRC_ATOP); checked = 2; break;
+            case R.id.fbtn4: b1.fbtn4.setColorFilter(b.getRES().RES.getResources().getColor(android.R.color.holo_red_dark, null), PorterDuff.Mode.SRC_ATOP); checked = 3; break;
         }
     }
     public void checkFieldChange(final BaseFluxFrag frag, int field)

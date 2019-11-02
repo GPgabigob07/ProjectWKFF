@@ -247,5 +247,12 @@
     <string name="dragonattacksuccess">Player was completly destryoed!</string>
     <string name="reincarnated">Will reincarnate: </string>
     <string name="times_left">Times left:</string>
+    <string name="label_enable_debug_log">Mark if you want to see all game \'behind the scenes\'</string>
+    <string name="label_enable_debug">Enable Full Debug Log</string>
+    <string name="label_debug">Debug Log</string>
+    <string name="v">V</string>
+    <string name="d">D</string>
+    <string name="w">W</string>
+
 
 </resources>

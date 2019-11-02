@@ -1,7 +1,6 @@
 package org.gpginc.ntateam.projectwkff.ui.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,8 +50,6 @@ public class DamageStepFragment extends BaseFluxFrag
 
     public static void DAMAGESTEP(Collection<Player> players, GameFlux res)
     {
-        players.forEach(p ->{
-            p.damageStep(res);
-        });
+        players.forEach(p -> p.damageStep(res));
     }
 }

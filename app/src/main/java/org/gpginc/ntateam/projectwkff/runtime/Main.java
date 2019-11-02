@@ -1,6 +1,6 @@
 package org.gpginc.ntateam.projectwkff.runtime;
 
-import android.util.Log;
+import static org.gpginc.ntateam.projectwkff.GameFlux.LOG;
 
 import androidx.annotation.NonNull;
 
@@ -205,7 +205,7 @@ public class Main
     {
 
         p.setField(field).setKingdom(k).setClazz(c.newInstance());
-        Log.wtf("MAIN BOOT", "PLAYER: " + p.getName() + " f: " + field + " K: " + k.name() + " c: " + c.getClass().getName());
+        LOG.wtf("MAIN BOOT", "PLAYER: " + p.getName() + " f: " + field + " K: " + k.name() + " c: " + c.getClass().getSimpleName());
     }
 
     private static boolean isClazzAcceptable(Clazz c, int rar)

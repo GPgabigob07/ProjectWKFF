@@ -41,4 +41,10 @@
         app:key="DARK_THEME"
         app:summary="@string/label_require_restart"
         app:title="@string/label_dark_theme" />
+    <CheckBoxPreference
+        android:background="@android:color/transparent"
+        app:key="ALLDEBUG"
+        app:summary="@string/label_enable_debug_log"
+        app:title="@string/label_enable_debug" />
+
 </PreferenceScreen>

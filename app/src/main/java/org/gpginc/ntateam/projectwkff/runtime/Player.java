@@ -1,7 +1,7 @@
 package org.gpginc.ntateam.projectwkff.runtime;
 
 import android.os.Parcel;
-import android.util.Log;
+import static org.gpginc.ntateam.projectwkff.GameFlux.LOG;
 
 import androidx.annotation.Nullable;
 
@@ -15,7 +15,6 @@ import org.gpginc.ntateam.projectwkff.ui.widget.dialogs.MessageDialog;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class Player extends BaseAttacker
@@ -24,6 +23,7 @@ public class Player extends BaseAttacker
     private Kingdom kingdom;
     private Clazz clazz;
     public boolean isStun;
+    public boolean isDev;
     public boolean isBlind;
     public boolean isProtected;
     public boolean isDragonProtected;
@@ -70,7 +70,7 @@ public class Player extends BaseAttacker
         {
             this.effects.get(effects.indexOf(e)).currentUsages+=e.turnsDuration;
         } else this.effects.add(e.newInstance());
-        Log.wtf(this.getName() + "::AFFECTED BY: ", String.format("Effect {%s} added to player", e.getClass().getSimpleName()));
+        LOG.wtf(this.getName() + "::AFFECTED BY: ", String.format("Effect {%s} added to player", e.getClass().getSimpleName()));
 
     }
 
@@ -179,7 +179,7 @@ public class Player extends BaseAttacker
         /*for(int i = 0; i <= efxsize - 1; ++i)
         {
             int efxname = in.readInt();
-            Log.w("PLAYER LOADER: " + this.name +": "," Loading effect: "+efxname+" :: ");
+            LOG.w("PLAYER LOADER: " + this.name +": "," Loading effect: "+efxname+" :: ");
             System.out.print(Main.EFX_MAP.get(efxname).getClass().getSimpleName());
             this.effects.add(in.readParcelable(Main.EFX_MAP.get(efxname).getClass().getClassLoader()));
         }
@@ -214,7 +214,7 @@ public class Player extends BaseAttacker
         /*for(int i = 0; i < effects.size(); ++i)
         {
             int efxname = effects.get(i).getName();
-            Log.w("PLAYER LOADER: " + this.name +": "," Writing effect: "+efxname+" :: "+effects.get(i).getClass().getSimpleName());
+            LOG.w("PLAYER LOADER: " + this.name +": "," Writing effect: "+efxname+" :: "+effects.get(i).getClass().getSimpleName());
             dest.writeInt(efxname);
             dest.writeParcelable(effects.get(i), flags);
         }
@@ -256,7 +256,7 @@ public class Player extends BaseAttacker
                 this.attackers.put(clone, currentTurn);
             } else this.attackers.put(attacker, currentTurn);
 
-            Log.v("ATTACKED", name + " was attacked by " + attacker.toString());
+            LOG.v("ATTACKED", name + " was attacked by " + attacker.toString());
         }
     }
 
@@ -320,7 +320,7 @@ public class Player extends BaseAttacker
         //this.effects.remove(effect);
         if(!effect.still(t)) {
             removable.add(effect);
-            Log.wtf(this.name, effect.getClass().getSimpleName() + " marked to remove (" + effect.getCurrentUsages() + ")");
+            LOG.wtf(this.name, effect.getClass().getSimpleName() + " marked to remove (" + effect.getCurrentUsages() + ")");
         }
         effect.antidote(this);
     }
@@ -343,8 +343,8 @@ public class Player extends BaseAttacker
                 res.DRAGONS.stream().filter(d -> d.isProtecting && d.getProtectedOne().equals(this)).forEach(d -> d.giveDamage(this.damageTaken));
             }
             this.setProtected(false);
-            if (isDead) Log.wtf("PLAYER INFO: ", this.name + " has died this turn!");
-            if(markRespawn) Log.wtf("PLAYER INFO: ", this.name + " has REINCARNATED!!");
+            if (isDead) LOG.wtf("PLAYER INFO: ", this.name + " has died this turn!");
+            if(markRespawn) LOG.wtf("PLAYER INFO: ", this.name + " has REINCARNATED!!");
         }
         effects.removeAll(removable);
         removable.clear();
@@ -358,7 +358,7 @@ public class Player extends BaseAttacker
             this.isDead = !isDragonProtected && life() <= 0;
             if (isDead) {
                 res.DEAD_PLAYERS.put(this, res.currentTurn);
-                Log.wtf("PLAYER INFO: ", this.name + " has died this turn!");
+                LOG.wtf("PLAYER INFO: ", this.name + " has died this turn!");
             }
         } else
         {
@@ -372,14 +372,14 @@ public class Player extends BaseAttacker
             this.lifePoints = isDragonProtected ? life() : 0;
             this.isDead = true;
             this.attackers.put(d, currentTurn);
-            Log.v("ATTACKED", name + " was attacked by " + d.toString());
+            LOG.v("ATTACKED", name + " was attacked by " + d.toString());
             return true;
         } else if(ignore){
             if(!this.isEnemyFrom(d) && d.getBehavior()==Dragon.BEHAVIOUR_AGGRESSIVE)d.IA.setMarkAggressiveAttack(true);
             this.lifePoints = isDragonProtected ? life() : 0;
             this.isDead = true;
             this.attackers.put(d, currentTurn);
-            Log.v("ATTACKED", name + " was attacked by " + d.toString());
+            LOG.v("ATTACKED", name + " was attacked by " + d.toString());
             return true;
         }
         else return false;
@@ -464,6 +464,12 @@ public class Player extends BaseAttacker
         List<BaseAttacker> tmpattackers = new ArrayList<>();
         this.attackers.entries().stream().filter(e -> e.getValue() == currentTurn).forEach(E -> tmpattackers.add(E.getKey()));
         return tmpattackers;
+    }
+
+
+    public Player setDev(boolean dev) {
+        isDev = dev;
+        return this;
     }
 }
 

@@ -1,7 +1,7 @@
 package org.gpginc.ntateam.projectwkff.runtime.events;
 
 import android.os.Parcel;
-import android.util.Log;
+import static org.gpginc.ntateam.projectwkff.GameFlux.LOG;
 
 import org.gpginc.ntateam.projectwkff.GameFlux;
 import org.gpginc.ntateam.projectwkff.R;
@@ -55,7 +55,7 @@ public class Alchemist extends Event {
     @Override
     public Alchemist base() {
         super.base();
-        Log.v("from event:"," BASE APLYIED TO ALCHEMIST");
+        LOG.v("from event:"," BASE APLYIED TO ALCHEMIST");
         return this;
     }
 
@@ -75,7 +75,7 @@ public class Alchemist extends Event {
 
         Util.getGameEnd(this, res);
         res.gameover();
-        Log.v("EVENT RUNTIME", res.getPlayer(this.owner).getName() + " HAD WON BY " + res.getResources().getString(this.getName()));
+        LOG.v("EVENT RUNTIME", res.getPlayer(this.owner).getName() + " HAD WON BY " + res.getResources().getString(this.getName()));
     }
     public static Creator<Alchemist> CREATOR = new Creator<Alchemist>() {
         @Override

@@ -1,8 +1,7 @@
 package org.gpginc.ntateam.projectwkff.runtime.dragons;
 
-import android.content.Intent;
 import android.os.Parcel;
-import android.util.Log;
+import static org.gpginc.ntateam.projectwkff.GameFlux.LOG;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.IntDef;
@@ -102,13 +101,13 @@ public class Dragon extends BaseAttacker
     {
         if(!turnAttack) {
             if (!isSleepiness && !isProtecting) {
-                Log.v(getNameAsString(), "ATTACKING START");
+                LOG.v(getNameAsString(), "ATTACKING START");
                 if(player.dragonAttack(this, false))
                 {
                     player.inspect(res);
                     res=null;
                     this.turnAttack = true;
-                    Log.v(getNameAsString(), "ATTACK DONE TO " + player.getName());
+                    LOG.v(getNameAsString(), "ATTACK DONE TO " + player.getName());
                     return SUCCESS;
                 }
                 else return flags[4];
@@ -286,7 +285,7 @@ public class Dragon extends BaseAttacker
     public Dragon randomBehavior()
     {
         this.setBehaviour(behaviorChance(new Random().nextInt(100)));
-        Log.wtf("DRAGON {"+this.getNameAsString()+"}", "BEHAVIOUR = {"+this.behaviour+"}");
+        LOG.wtf("DRAGON {"+this.getNameAsString()+"}", "BEHAVIOUR = {"+this.behaviour+"}");
         return this;
     }
 

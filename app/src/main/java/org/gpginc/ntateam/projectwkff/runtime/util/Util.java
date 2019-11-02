@@ -2,7 +2,7 @@ package org.gpginc.ntateam.projectwkff.runtime.util;
 
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
+import static org.gpginc.ntateam.projectwkff.GameFlux.LOG;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,6 +10,8 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
 import androidx.databinding.BindingAdapter;
 
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.collections4.map.LinkedMap;
 import org.gpginc.ntateam.projectwkff.GameFlux;
 import org.gpginc.ntateam.projectwkff.R;
 import org.gpginc.ntateam.projectwkff.runtime.BaseAttacker;
@@ -17,7 +19,6 @@ import org.gpginc.ntateam.projectwkff.runtime.Effect;
 import org.gpginc.ntateam.projectwkff.runtime.Event;
 import org.gpginc.ntateam.projectwkff.runtime.Player;
 import org.gpginc.ntateam.projectwkff.runtime.dragons.Dragon;
-import org.gpginc.ntateam.projectwkff.runtime.dragons.events.DragonBorn;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -99,7 +100,7 @@ public class Util
             if(!e.isAttacher && !e.needPlayers)evts.add(e);
             else if(e.isAttacher && e.getOwner().equals(p))evts.add(e);
             else if(e.needPlayers && e.getOwner().equals(p))evts.add(e);
-            //else Log.v("", "ERROR!! EVENT DISCREPANCY!!!!!!!!!!!!");
+            //else LOG.v("", "ERROR!! EVENT DISCREPANCY!!!!!!!!!!!!");
         }
         return concrurrent;
     }
@@ -125,7 +126,7 @@ public class Util
         {
             output.append(crypt(crypted));
         }
-        Log.w("CRYPTING SERVICE:", "TYPO={"+s+"}; Param={3-3}; SupOut={"+output.toString()+"} serving out; Time 0ms;");
+        LOG.w("CRYPTING SERVICE:", "TYPO={"+s+"}; Param={3-3}; SupOut={"+output.toString()+"} serving out; Time 0ms;");
         return output.toString();
     }
     public static String getDecrypt(String s)
@@ -260,9 +261,18 @@ public class Util
         int[] count = {0,0,0,0};
         res.PLAYERS.stream().filter(p -> p.isEnemyFrom(dragon)).forEach(p -> count[p.getField()]++);
         int outval = 0;
-        for (int i = 0; i < count.length; i++) {
-            outval = outval < count[i] ? count[i] : outval;
+        for (int value : count) {
+            outval = outval < value ? value : outval;
         }
         return outval;
+    }
+
+    public static <K, V> LinkedMap<K, V> reverseMap(LinkedMap<K, V> map)
+    {
+        LinkedMap<K, V> out = new LinkedMap<K, V>();
+        for (int i = map.size() -1; i >=0; i--) {
+            out.put((K) map.keySet().toArray()[i], (V) map.values().toArray()[i]);
+        }
+        return out;
     }
 }

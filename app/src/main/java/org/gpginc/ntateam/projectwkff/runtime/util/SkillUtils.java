@@ -1,8 +1,7 @@
 package org.gpginc.ntateam.projectwkff.runtime.util;
 
-import android.util.Log;
+import static org.gpginc.ntateam.projectwkff.GameFlux.LOG;
 
-import org.gpginc.ntateam.projectwkff.GameFlux;
 import org.gpginc.ntateam.projectwkff.R;
 import org.gpginc.ntateam.projectwkff.runtime.ClazzSkill;
 import org.gpginc.ntateam.projectwkff.runtime.Player;
@@ -10,7 +9,6 @@ import org.gpginc.ntateam.projectwkff.runtime.dragons.Dragon;
 import org.gpginc.ntateam.projectwkff.runtime.dragons.skills.BaseDragonSkill;
 import org.gpginc.ntateam.projectwkff.ui.fragments.BaseFluxFrag;
 import org.gpginc.ntateam.projectwkff.ui.widget.adapters.PlayerSelectionAdapter;
-import org.gpginc.ntateam.projectwkff.ui.widget.dialogs.MessageDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +27,7 @@ public class SkillUtils
                 if(!p.equals(provider))if(p.getField() == i)
                 {
                     player.add(p);
-                    Log.w(SkillUtils.class.getName() + " using getAdapterFor()","DATA {provider="+provider.toString()+"; selectable="+muchSelectable+"; shoNames="+showNames+"; fields="+fields.toString()
+                    LOG.w(SkillUtils.class.getName() + " using getAdapterFor()","DATA {provider="+provider.toString()+"; selectable="+muchSelectable+"; shoNames="+showNames+"; fields="+fields.toString()
                             +"\n FOUND: "+p.toString()+"\n-*-*-*-*-*-*-*-*-*-**-*-*-*--***-**-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
                 }
             }

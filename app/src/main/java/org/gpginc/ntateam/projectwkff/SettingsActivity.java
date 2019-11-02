@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.CheckBoxPreference;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -20,6 +21,8 @@ import org.gpginc.ntateam.projectwkff.runtime.Main;
 import org.gpginc.ntateam.projectwkff.runtime.events.DefeatSupreme;
 import org.gpginc.ntateam.projectwkff.runtime.util.enums.Rarity;
 import org.gpginc.ntateam.projectwkff.ui.widget.dialogs.MessageDialog;
+
+import java.util.Locale;
 
 public class SettingsActivity extends BaseAppActivity implements
         PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
@@ -159,13 +162,16 @@ public class SettingsActivity extends BaseAppActivity implements
                         return true;
                     });
 
-                    // CheckBoxPreference markToRemove
+                    CheckBoxPreference isDev = new CheckBoxPreference(context);
+                    isDev.setKey(key + "is_dev");
+                    isDev.setTitle("dev -> {}");
 
                     PreferenceCategory category = new PreferenceCategory(context);
                     category.setKey("CATEGORY PLAYER " + i);
                     category.setTitle(namep);
                     screen.addPreference(category);
                     category.addPreference(name);
+                    category.addPreference(isDev);
                     category.addPreference(del);
                     category.setIconSpaceReserved(false);
                 }

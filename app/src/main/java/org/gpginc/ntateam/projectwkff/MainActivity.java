@@ -8,7 +8,7 @@ import android.graphics.drawable.ClipDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.util.Log;
+import static org.gpginc.ntateam.projectwkff.GameFlux.LOG;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -41,7 +41,7 @@ public class MainActivity extends BaseAppActivity {
     private Handler mHandler = new Handler();
     private Runnable growth = () -> {
         grow(nextLevel);
-        Log.w("MAIN", mLevel + " to " +nextLevel);
+        LOG.w("MAIN", mLevel + " to " +nextLevel);
     };
 
     void grow(int to)
@@ -163,7 +163,8 @@ public class MainActivity extends BaseAppActivity {
             for(int i = 0; i < pref.getInt("players_size", 4); ++i)
             {
                 String s = pref.getString("PLAYER " + i, "");
-                if(s!="")PLAYERS.add(new Player(s));
+                boolean b = pref.getBoolean("PLAYER " + i + "is_dev", false);
+                if(s!="")PLAYERS.add(new Player(s).setDev(b));
             }
             updatePlayesList();
         }

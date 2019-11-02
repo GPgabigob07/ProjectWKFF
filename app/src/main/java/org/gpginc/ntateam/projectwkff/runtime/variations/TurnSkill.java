@@ -1,7 +1,7 @@
 package org.gpginc.ntateam.projectwkff.runtime.variations;
 
 import android.os.Parcel;
-import android.util.Log;
+import static org.gpginc.ntateam.projectwkff.GameFlux.LOG;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ViewDataBinding;
@@ -30,6 +30,6 @@ public abstract class TurnSkill extends ClazzSkill
     public void onTurnRun(ViewDataBinding o)
     {
         if(this.canUse)runSkill(o);
-        else Log.v("", "MUST BE USEFULL");
+        else LOG.v("", "MUST BE USEFULL");
     }
 }
