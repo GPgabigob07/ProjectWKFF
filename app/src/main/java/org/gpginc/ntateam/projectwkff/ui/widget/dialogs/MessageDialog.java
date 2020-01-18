@@ -23,7 +23,15 @@ public class MessageDialog extends DialogFragment
     public DialogMessageBinding binder;
     private int message;
     private OnMessageAccept mListener;
+    private OnMessageCancel onMessageCancel;
+    private boolean cancelable;
     private String extraText;
+
+
+    @Override
+    public void setCancelable(boolean cancelable) {
+        this.cancelable = cancelable;
+    }
 
     @Deprecated
     /**
@@ -46,12 +54,27 @@ public class MessageDialog extends DialogFragment
             dialog.dismiss();
             if(mListener!=null)mListener.onAccept();
         });
+        if(cancelable)
+        {
+            builder.setNegativeButton(android.R.string.cancel, (d, w) -> {
+                d.dismiss();
+                if (onMessageCancel != null) {
+                    onMessageCancel.onCancel();
+                }
+            });
+        }
+
 
         return builder.create();
     }
 
     public void setOnAcceptListener(OnMessageAccept mListener) {
         this.mListener = mListener;
+    }
+
+    public MessageDialog setOnMessageCancel(OnMessageCancel onMessageCancel) {
+        this.onMessageCancel = onMessageCancel;
+        return this;
     }
 
     public interface OnMessageAccept
@@ -97,6 +120,12 @@ public class MessageDialog extends DialogFragment
             d.setOnAcceptListener(listener);
             return this;
         }
+        public Display withCancelListener(OnMessageCancel listener)
+        {
+            d.setCancelable(true);
+            d.setOnMessageCancel(listener);
+            return this;
+        }
 
         /**
          * Catch message from an InheritedDialog and Display as a normal MessageDialog
@@ -106,6 +135,7 @@ public class MessageDialog extends DialogFragment
         public <D extends InheritedDialog> void from(D dialog)
         {
             d.setMessage(dialog.getMsg());
+            d.setOnAcceptListener(dialog.getListener());
             prompt();
         }
 
@@ -133,5 +163,13 @@ public class MessageDialog extends DialogFragment
             }
             protected int getMsg(){return msg;}
         }
+    }
+
+    public OnMessageAccept getListener() {
+        return this.mListener;
+    }
+
+    public interface OnMessageCancel{
+        void onCancel();
     }
 }

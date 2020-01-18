@@ -45,7 +45,7 @@ public class GodIsAmongUs extends Event  {
 
     @Override
     public Event newInstance(Player owner) {
-        int l = new Random().nextInt(Main.SKILLS.size());
+        int l = new Random().nextInt(Main.SKILLS.size()-2);
         for(int i = 0; i < (l > 3 ? l : 3); i++)
         {
             ClazzSkill sk = null;

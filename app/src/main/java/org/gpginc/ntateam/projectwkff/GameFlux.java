@@ -1,7 +1,9 @@
 package org.gpginc.ntateam.projectwkff;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.media.audiofx.BassBoost;
 import android.os.Bundle;
 import android.os.Parcelable;
 
@@ -10,16 +12,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.DialogFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.MobileAdsInitProvider;
+
 import org.apache.commons.collections4.map.LinkedMap;
 import org.gpginc.ntateam.projectwkff.databinding.ActivityGameFluxBinding;
+import org.gpginc.ntateam.projectwkff.databinding.DialogInputBinding;
 import org.gpginc.ntateam.projectwkff.runtime.BaseAttacker;
 import org.gpginc.ntateam.projectwkff.runtime.ClazzSkill;
 import org.gpginc.ntateam.projectwkff.runtime.Effect;
@@ -27,16 +39,22 @@ import org.gpginc.ntateam.projectwkff.runtime.Event;
 import org.gpginc.ntateam.projectwkff.runtime.Main;
 import org.gpginc.ntateam.projectwkff.runtime.Player;
 import org.gpginc.ntateam.projectwkff.runtime.dragons.Dragon;
+import org.gpginc.ntateam.projectwkff.runtime.util.Replay;
 import org.gpginc.ntateam.projectwkff.runtime.util.enums.EventHandler;
+import org.gpginc.ntateam.projectwkff.runtime.util.sotryboard.SingleWar;
 import org.gpginc.ntateam.projectwkff.ui.fragments.PlayerInfosFragments;
 import org.gpginc.ntateam.projectwkff.ui.widget.adapters._deloggerAdapter;
+import org.gpginc.ntateam.projectwkff.ui.widget.dialogs.MessageDialog;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class GameFlux extends BaseAppActivity {
 
@@ -50,11 +68,17 @@ public class GameFlux extends BaseAppActivity {
     public Integer currentPlayerIndex;
     public Integer currentTurn;
     public PlayerInfosFragments LOGGERFRAG = PlayerInfosFragments.newInstance(7097);
+
+    public final SingleWar WAR = new SingleWar();
+    public final Replay replay = new Replay(this);
    // protected final DragonHandler dragonHandler = new DragonHandler(this);
 
     public NavController navController;
     public Event ENDEVENT;
     private AppBarConfiguration mAppBarConfiguration;
+    /*adss*/
+    private InterstitialAd myAd = new InterstitialAd(this);
+    private boolean hasShowFirstAd = false, hasShowLastAd = false;
 
 
     public ActivityGameFluxBinding BINDER;
@@ -62,6 +86,35 @@ public class GameFlux extends BaseAppActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /*diplay an ad when game starts*/
+        MobileAds.initialize(this, getString(R.string.admob_appid));
+        myAd = new InterstitialAd(this);
+        myAd.setAdUnitId(getString(R.string.interstitial_ad_sample));
+        myAd.loadAd(new AdRequest.Builder().build());
+        myAd.setAdListener(new AdListener()
+        {
+            @Override
+            public void onAdClosed() {
+                myAd.loadAd(new AdRequest.Builder().build());
+            }
+
+            @Override
+            public void onAdLoaded() {
+                if(!hasShowFirstAd && navController.getCurrentDestination().getId() == R.id.prePlayer)
+                {
+                    myAd.show();
+                    hasShowFirstAd = true;
+                }
+                else if(!hasShowLastAd && navController.getCurrentDestination().getId() == R.id.gameEnd)
+                {
+                    myAd.show();
+                    hasShowLastAd = true;
+                }
+            }
+        });
+
+
         setTheme(darkTheme ? R.style.AppTheme_Dark_NoActionBar : R.style.AppTheme_NoActionBar);
         BINDER = DataBindingUtil.setContentView(this, R.layout.activity_game_flux);
         setSupportActionBar(BINDER.toolbar);
@@ -103,10 +156,22 @@ public class GameFlux extends BaseAppActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
-        finish();
+        new MessageDialog.Display(this, R.string.savewar).withListener(()-> {
+            Dialog d = new Dialog();
+            d.show(GameFlux.this.getSupportFragmentManager(), null);
+        }).withCancelListener(() -> {
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+            finish();
+        }).prompt();
+
         return super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getSupportFragmentManager().executePendingTransactions();
     }
 
     public void goNext()
@@ -201,7 +266,7 @@ public class GameFlux extends BaseAppActivity {
             if(((Event) e).isAttacher)
             {
                 LOG.d("EVENT SUBSEC LOADER ", "EVENT "+getResources().getString(((Event) e).getName())+" OWNER = " + ((Event) e).getOwner().getName());
-            } else if(((Event) e).needPlayers) {
+            } else if(e.needPlayers) {
                 LOG.d("EVENT SUBSEC LOADER ", "EVENT " + getResources().getString(((Event) e).getName()) + " OWNER = " + ((Event) e).getOwner().getName());
                 LOG.d("EVENT SUBSEC LOADER ", "EVENT " + getResources().getString(((Event) e).getName()) + " TARGET = " + ((Event) e).getTarget().getName());
 
@@ -333,13 +398,38 @@ public class GameFlux extends BaseAppActivity {
         {
             if(this.adapter!=null)
             {
-                this.adapter = new _deloggerAdapter().setmMap(loggerout);
-                this.view.setAdapter(this.adapter);
+             //   this.adapter = new _deloggerAdapter().setmMap(loggerout);
+              //  this.view.setAdapter(this.adapter);
             }
         }
 
         @IntDef({V,D,W})
         private @interface LogType{}
+    }
+
+    public static class Dialog extends DialogFragment
+    {
+        @NonNull
+        @Override
+        public android.app.Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+            DialogInputBinding binder = DataBindingUtil.bind(requireActivity().getLayoutInflater().inflate(R.layout.dialog_input, null));
+            builder.setTitle(R.string.savereplaytitle);
+            builder.setView(binder.getRoot());
+            builder.setPositiveButton(android.R.string.ok, (dialog, which) ->
+            {
+                ((GameFlux) requireActivity()).replay.setName(binder.rpname.getText().toString());
+                //((GameFlux) requireActivity()).WAR.setMaxTimeStep(((GameFlux) requireActivity()).currentTurn);
+
+                ((GameFlux) requireActivity()).replay.saveToFile(new File(this.getActivity().getFilesDir(), String.format("%s.jrp", binder.rpname.getText().toString())));
+                Intent i = new Intent(((GameFlux) requireActivity()), MainActivity.class);
+                ((GameFlux) requireActivity()).startActivity(i);
+                ((GameFlux) requireActivity()).finish();
+
+            });
+            return builder.create();
+        }
     }
 }
 

@@ -19,6 +19,7 @@ import org.gpginc.ntateam.projectwkff.runtime.Effect;
 import org.gpginc.ntateam.projectwkff.runtime.Event;
 import org.gpginc.ntateam.projectwkff.runtime.Player;
 import org.gpginc.ntateam.projectwkff.runtime.dragons.Dragon;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +27,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Util
 {
@@ -274,5 +276,46 @@ public class Util
             out.put((K) map.keySet().toArray()[i], (V) map.values().toArray()[i]);
         }
         return out;
+    }
+
+    public static String identJSON(JSONObject story)
+    {
+        StringBuilder b = new StringBuilder();
+        AtomicInteger open = new AtomicInteger(0);
+        Arrays.asList(story.toString().split(""))
+                .forEach(S ->
+                {
+                    if(S.contains(",")) {
+                        b.append(S);
+                        b.append("\n");
+                        for(int i = 0; i < open.get(); i ++)b.append("   ");
+                    }
+                    else if(S.contains("{") || S.contains("["))
+                    {
+                        b.append(S);
+                        open.incrementAndGet();
+                        b.append("\n");
+                        for(int i = 0; i < open.get(); i ++)b.append("   ");
+                    }else if (S.contains("}") || S.contains("]"))
+                    {
+                        open.decrementAndGet();
+                        b.append("\n");
+                        for(int i = 0; i < open.get(); i ++)b.append("   ");
+                        b.append(S);
+                    }
+                    else b.append(S);
+                });LOG.wtf("JSON WRITTER", b.toString());
+        return b.toString();
+    }
+
+    public static void wrapMapToSize(LinkedMap<String, Integer> mMap, int l)
+    {
+        if(mMap.size() > 200)
+        {
+            for(int i = mMap.size()-1; i >=200; i--)
+            {
+                mMap.remove(i);
+            }
+        }
     }
 }

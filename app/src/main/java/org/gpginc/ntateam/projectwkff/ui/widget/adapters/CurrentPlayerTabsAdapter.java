@@ -11,6 +11,7 @@ import org.gpginc.ntateam.projectwkff.ui.fragments.PlayerInfosFragments;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("uncheked")
 public class CurrentPlayerTabsAdapter extends FragmentStatePagerAdapter {
 
     public List<PlayerInfosFragments> FRAGMENTS = new ArrayList<>();

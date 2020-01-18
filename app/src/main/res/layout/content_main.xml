@@ -11,32 +11,40 @@
         tools:context=".MainActivity"
         tools:showIn="@layout/activity_main" >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <pl.droidsonroids.gif.GifImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-30dp"
-                android:layout_weight="0.35"
-                android:src="@drawable/title_anim" />
+                android:layout_marginTop="-70dp"
+                android:src="@drawable/title_anim"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/titlezin"
+                />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/players_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.65"
-                android:padding="15dp" />
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:layout_below="@+id/titlezin"/>
+            <TextView
+                android:id="@+id/add_player"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/players_list"
+                android:text="@string/add_player"
+                android:gravity="center"
+                android:autoSizeMinTextSize="15sp"
+                android:autoSizeMaxTextSize="22sp"
+                android:autoSizeTextType="uniform"
+                android:textSize="16sp"
+                android:drawableStart="@android:drawable/ic_input_add"
+                android:layout_centerHorizontal="true"/>
 
-        <ImageView
-            android:id="@+id/bartest"
-            android:layout_width="match_parent"
-            android:layout_height="128dp"
-            android:layout_gravity="bottom"
-            android:src="@drawable/dragon_power_bar" />
+        </RelativeLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

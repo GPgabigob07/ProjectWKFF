@@ -13,7 +13,8 @@
     </data>
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="90dp"
+        android:layout_height="wrap_content"
+        android:minHeight="90dp"
         android:padding="4dp">
 
         <androidx.cardview.widget.CardView
@@ -24,11 +25,12 @@
             app:cardCornerRadius="15dp"
             android:layout_centerInParent="true"
             app:cardBackgroundColor="?android:attr/windowBackground"
-            android:outlineAmbientShadowColor="@android:color/holo_purple">
+            >
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:minHeight="85dp">
 
                 <TextView
                     android:id="@+id/logtypenamespace"
@@ -39,16 +41,19 @@
                     android:layout_marginStart="1dp"
                     android:textSize="20sp"
                     android:textColor="?attr/colorError"
+                    android:minHeight="85dp"
                     android:background="@{typo == FluxLog.V ? @android:color/holo_purple : typo == FluxLog.W ? @android:color/holo_red_dark : typo == FluxLog.D ? @android:color/holo_blue_bright : @color/colorAccent, default=@android:color/holo_purple}"/>
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/logtypenamespace"
+                    android:layout_toEndOf="@id/logtypenamespace"
                     android:layout_marginStart="2dp"
                     android:text="@{output, default=stringoutputmessage}"
                     android:textSize="17sp"
-                    android:autoSizeTextType="uniform"/>
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMaxTextSize="20sp"
+                    android:autoSizeMinTextSize="15sp"/>
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

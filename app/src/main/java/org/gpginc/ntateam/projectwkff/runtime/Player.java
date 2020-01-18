@@ -10,12 +10,15 @@ import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.gpginc.ntateam.projectwkff.GameFlux;
 import org.gpginc.ntateam.projectwkff.R;
 import org.gpginc.ntateam.projectwkff.runtime.dragons.Dragon;
+import org.gpginc.ntateam.projectwkff.runtime.util.Replay;
+import org.gpginc.ntateam.projectwkff.runtime.util.sotryboard.PlayerActions;
 import org.gpginc.ntateam.projectwkff.ui.widget.dialogs.MessageDialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Player extends BaseAttacker
 {
@@ -69,8 +72,14 @@ public class Player extends BaseAttacker
         if(this.effects.contains(e))
         {
             this.effects.get(effects.indexOf(e)).currentUsages+=e.turnsDuration;
-        } else this.effects.add(e.newInstance());
+        } else
+        {
+            this.effects.add(e.newInstance());
+            if(e.isInstaEffect())this.effects.get(effects.indexOf(e)).apply(this, currentTurn);
+        }
+
         LOG.wtf(this.getName() + "::AFFECTED BY: ", String.format("Effect {%s} added to player", e.getClass().getSimpleName()));
+        printefefcts();
 
     }
 
@@ -107,11 +116,19 @@ public class Player extends BaseAttacker
                                ? R.drawable.player_full_protected_life
                                : R.drawable.player_full_life;
                 default:
-                    return R.drawable.dead_marker;
+                    return this.isDragonProtected ? R.drawable.reincarn_player_life_icon : R.drawable.dead_marker;
             }
         }
     }
 
+    private void printefefcts()
+    {
+        StringBuilder v = new StringBuilder();
+        v.append(String.format("Effects for %s = {", this.name));
+        this.effects.forEach(e -> v.append(e.toString() + "\n"));
+        v.append('}');
+        LOG.w("EFFECTS", v.toString());
+    }
     public int getFieldIcon()
     {
         switch (this.getField() + 1)
@@ -175,20 +192,6 @@ public class Player extends BaseAttacker
         kingdom = Kingdom.withName(in.readString());
         int name = in.readInt();
         this.clazz = in.readParcelable(Main.CLAZZ_MAP.get(name).getClass().getClassLoader());
-        int efxsize = in.readInt();
-        /*for(int i = 0; i <= efxsize - 1; ++i)
-        {
-            int efxname = in.readInt();
-            LOG.w("PLAYER LOADER: " + this.name +": "," Loading effect: "+efxname+" :: ");
-            System.out.print(Main.EFX_MAP.get(efxname).getClass().getSimpleName());
-            this.effects.add(in.readParcelable(Main.EFX_MAP.get(efxname).getClass().getClassLoader()));
-        }
-        for(int a = 0; a <= in.readInt() - 1; ++a)
-        {
-            int type = in.readInt();
-            BaseAttacker attacker = (BaseAttacker) in.readTypedObject(BaseAttacker.getCreator(type));
-            if(attacker!=null)attackers.add(attacker);
-        }*/
     }
 
     /*kingdom = (Kingdom) in.readSerializable();
@@ -210,19 +213,6 @@ public class Player extends BaseAttacker
         dest.writeString(kingdom.name());
         dest.writeInt(clazz.getName());
         dest.writeParcelable(clazz, flags);
-        dest.writeInt(effects.size() > 0 ? effects.size() : -1);
-        /*for(int i = 0; i < effects.size(); ++i)
-        {
-            int efxname = effects.get(i).getName();
-            LOG.w("PLAYER LOADER: " + this.name +": "," Writing effect: "+efxname+" :: "+effects.get(i).getClass().getSimpleName());
-            dest.writeInt(efxname);
-            dest.writeParcelable(effects.get(i), flags);
-        }
-        dest.writeInt(attackers.size() > 0 ? attackers.size() : -1);
-        for (BaseAttacker baseAttacker : attackers) {
-            dest.writeInt(baseAttacker.typeApplied);
-            dest.writeTypedObject(baseAttacker, flags);
-        }*/
     }
 
     public BaseAttacker clean()
@@ -249,12 +239,13 @@ public class Player extends BaseAttacker
         else this.lifePoints-=i;
         if(attacker!=null)
         {
-            BaseAttacker clone = null;
+            BaseAttacker clone;
             if(attacker instanceof Player)
             {
                 clone = new Player(((Player) attacker).getName()).setClazz(((Player) attacker).clazz).setField(((Player) attacker).field).setKingdom(((Player) attacker).kingdom);
                 this.attackers.put(clone, currentTurn);
             } else this.attackers.put(attacker, currentTurn);
+
 
             LOG.v("ATTACKED", name + " was attacked by " + attacker.toString());
         }
@@ -326,10 +317,10 @@ public class Player extends BaseAttacker
     }
 
     public void damageStep(GameFlux res) {
-        swTurn();
+        printefefcts();
         getEffects().stream().filter(e -> e.getBehavior() == Effect.MALIGNE).forEach(p -> p.apply(this, currentTurn));
-        getEffects().stream().filter(e -> e.getBehavior() == Effect.BENIGNE).forEach(p -> p.apply(this, currentTurn));
         inspect(res);
+        getEffects().stream().filter(e -> e.getBehavior() == Effect.BENIGNE).forEach(p -> p.apply(this, currentTurn));
         if(markDeath)
         {
             lifePoints = 0;
@@ -343,11 +334,27 @@ public class Player extends BaseAttacker
                 res.DRAGONS.stream().filter(d -> d.isProtecting && d.getProtectedOne().equals(this)).forEach(d -> d.giveDamage(this.damageTaken));
             }
             this.setProtected(false);
-            if (isDead) LOG.wtf("PLAYER INFO: ", this.name + " has died this turn!");
+            if (isDead) LOG.wtf("PLAYER INFO: ", this.name + " has died this turn! "+ currentTurn);
             if(markRespawn) LOG.wtf("PLAYER INFO: ", this.name + " has REINCARNATED!!");
         }
-        effects.removeAll(removable);
-        removable.clear();
+
+        AtomicReference<PlayerActions> ACT = new AtomicReference<>();
+        attackers.keys().stream().filter(a -> attackers.get(a).contains(currentTurn)).forEach(a -> {
+            res.replay.addAction(this, Replay.ReplayAction.Type.INTERACTION, res.getString(R.string.replay_attackedby) + " " + a.getRelativeName(), currentTurn);
+            res.replay.addAction(a, Replay.ReplayAction.Type.ATTACK, res.getString(R.string.replay_attack) + " " + this.getName(), currentTurn);
+        });
+        /*if (ACT.get() == null) {
+            PlayerActions act = new PlayerActions(this);
+            ACT.set(act);
+
+        }*/
+        if(this.isDead)res.replay.newDeadAction(this, res.getResources());
+        if(this.isAffected())res.replay.genEffectInfos(this, res.getResources());
+        List<Effect> e = new ArrayList<>();
+        e.addAll(effects);
+        if(!e.isEmpty())e.stream().filter(efx -> !efx.still(currentTurn)).forEach(effects::remove);
+        printefefcts();
+        swTurn();
 
 
     }
@@ -364,6 +371,7 @@ public class Player extends BaseAttacker
         {
             new MessageDialog.Display(res, R.string.reincarnated, getName()).prompt();
             res.DEAD_PLAYERS.remove(this);
+            markRespawn = false;
         }
     }
     public boolean dragonAttack(Dragon d, boolean ignore)

@@ -3,12 +3,14 @@ package org.gpginc.ntateam.projectwkff.runtime;
 import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
 import org.gpginc.ntateam.projectwkff.GameFlux;
 import org.gpginc.ntateam.projectwkff.R;
+import org.gpginc.ntateam.projectwkff.navycore.Core;
 import org.gpginc.ntateam.projectwkff.runtime.dragons.Dragon;
 import org.gpginc.ntateam.projectwkff.runtime.util.enums.EventHandler;
 import org.gpginc.ntateam.projectwkff.runtime.util.enums.Rarity;
@@ -50,6 +52,7 @@ public abstract class Event implements Parcelable
         this.rarity = rarity;
         this.useRarity = rarity;
         this.handler = handler;
+        Log.d("EVENT CREATOR DEBUG:", Core.NaVYCryptor.krypt(String.valueOf(name)));
 
     }
 

@@ -22,9 +22,13 @@ public class Stun extends Effect
         if(this.still(t)) {
             applyTurn = t;
             p.setStun(true);
-            this.consume();
+            consume();
         }
-        else p.antidote(this, t);
+        else
+        {
+            p.antidote(this, t);
+            p.setStun(false);
+        }
     }
 
     @Override

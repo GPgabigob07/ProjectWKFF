@@ -20,7 +20,8 @@ public class Supreme extends Clazz
     @Override
     public Clazz newInstance() {
         return new Supreme()
-                .bindSkill(Main.CHANGE_POSITION);
+                .bindSkill(Main.CHANGE_POSITION)
+                .bindSkill(Main.REPOSITION);
     }
     public static final Creator<Supreme> CREATOR = new Creator<Supreme>() {
         @Override

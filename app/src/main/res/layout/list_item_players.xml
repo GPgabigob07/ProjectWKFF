@@ -26,7 +26,7 @@
                 android:layout_height="32dp"
                 android:adjustViewBounds="false"
                 android:cropToPadding="false"
-                app:srcCompat="@android:drawable/ic_input_add" />
+                app:srcCompat="@android:drawable/ic_menu_more" />
 
             <Space
                 android:layout_width="10dp"

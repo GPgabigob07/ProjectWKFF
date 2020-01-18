@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "852123616404",
+    "firebase_url": "https://projectwkff-f98ba.firebaseio.com",
+    "project_id": "projectwkff-f98ba",
+    "storage_bucket": "projectwkff-f98ba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852123616404:android:3c3aff8b24213f16ffe081",
+        "android_client_info": {
+          "package_name": "org.gpginc.ntateam.projectwkff"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "852123616404-31pfsvdc370qvuada8ecj2t362sjsf3a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.gpginc.ntateam.projectwkff",
+            "certificate_hash": "49348aa75f2e27c2187c9ace3eb6b0e851c3665b"
+          }
+        },
+        {
+          "client_id": "852123616404-408q7iq6701pobk3sejgj0dvnmoo0v81.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuKCEQ8vtURBWzKDZGA2PfTo01yE7qN64"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "852123616404-408q7iq6701pobk3sejgj0dvnmoo0v81.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

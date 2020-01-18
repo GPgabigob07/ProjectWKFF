@@ -60,7 +60,7 @@ public class CurrentPlayerFragment extends BaseFluxFrag
     protected void setupWindow()
     {
 
-        CurrentPlayerTabsAdapter adapter = new CurrentPlayerTabsAdapter(RES.getSupportFragmentManager());
+        CurrentPlayerTabsAdapter adapter = new CurrentPlayerTabsAdapter(getChildFragmentManager());
         adapter.add(PlayerInfosFragments.newInstance(0), RES.getResources().getString(R.string.label_status));
         adapter.add(PlayerInfosFragments.newInstance(1), RES.getResources().getString(R.string.label_battle));
         if(RES.allDebugEnabled || RES.CP().isDev) adapter.add(PlayerInfosFragments.newInstance(7097), RES.getResources().getString(R.string.label_debug));

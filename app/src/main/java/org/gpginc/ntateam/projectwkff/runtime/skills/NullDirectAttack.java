@@ -7,6 +7,7 @@ import androidx.databinding.ViewDataBinding;
 import org.gpginc.ntateam.projectwkff.R;
 import org.gpginc.ntateam.projectwkff.databinding.PlayerStatusBinder;
 import org.gpginc.ntateam.projectwkff.runtime.ClazzSkill;
+import org.gpginc.ntateam.projectwkff.runtime.util.Replay;
 import org.gpginc.ntateam.projectwkff.runtime.variations.TurnSkill;
 import org.gpginc.ntateam.projectwkff.ui.widget.dialogs.MessageDialog;
 
@@ -38,6 +39,7 @@ public class NullDirectAttack extends TurnSkill
         final PlayerStatusBinder binder = (PlayerStatusBinder) bind;
         new MessageDialog.Display(binder.getRES(), R.string.youwereattackedbutwonttakedamage);
         binder.getRES().CP().setProtected(this.canUse);
+        binder.getRES().replay.addAction(binder.getPlayer(), Replay.ReplayAction.Type.STRATEGY, binder.getRES().getString(R.string.replay_nulledattack), binder.getRES().currentTurn);
         this.canUse = false;
     }
 

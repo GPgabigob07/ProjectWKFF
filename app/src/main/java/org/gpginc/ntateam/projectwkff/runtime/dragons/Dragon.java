@@ -105,6 +105,7 @@ public class Dragon extends BaseAttacker
                 if(player.dragonAttack(this, false))
                 {
                     player.inspect(res);
+                    res.replay.genDragonInteraction(player, this);
                     res=null;
                     this.turnAttack = true;
                     LOG.v(getNameAsString(), "ATTACK DONE TO " + player.getName());

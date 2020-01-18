@@ -60,6 +60,7 @@ public class WinnerPlayersAdapter extends RecyclerView.Adapter<WinnerPlayersAdap
             super(binder.getRoot());
             this.binder = binder;
             binder.plusInfo.setOnClickListener(this);
+            this.binder.dropdownExtras.animate().translationY(-this.binder.dropdownExtras.getHeight()).alpha(0);
         }
 
         @Override
@@ -67,7 +68,7 @@ public class WinnerPlayersAdapter extends RecyclerView.Adapter<WinnerPlayersAdap
             if(!isShowing)
             {
                 v.setRotation(0f);
-                binder.dropdownExtras.setTranslationY(0);
+                binder.dropdownExtras.setTranslationY(-this.binder.dropdownExtras.getHeight());
                 binder.dropdownExtras.setVisibility(View.VISIBLE);
                 binder.dropdownExtras.setAlpha(0);
                 v.animate().setDuration(200).rotation(45f).setListener(new AnimatorListenerAdapter() {
@@ -76,7 +77,7 @@ public class WinnerPlayersAdapter extends RecyclerView.Adapter<WinnerPlayersAdap
                         super.onAnimationEnd(animation);
                     }
                 }).start();
-                binder.dropdownExtras.animate().setDuration(200).alpha(1).translationY(binder.dropdownExtras.getHeight()).setListener(new AnimatorListenerAdapter() {
+                binder.dropdownExtras.animate().setDuration(200).alpha(1).translationY(0).setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
@@ -85,7 +86,7 @@ public class WinnerPlayersAdapter extends RecyclerView.Adapter<WinnerPlayersAdap
             } else
             {
                 v.setRotation(45f);
-                binder.dropdownExtras.setTranslationY(binder.dropdownExtras.getHeight());
+                binder.dropdownExtras.setTranslationY(0);
                 binder.dropdownExtras.setVisibility(View.VISIBLE);
                 binder.dropdownExtras.setAlpha(1);
                 v.animate().setDuration(200).rotation(0f).setListener(new AnimatorListenerAdapter() {

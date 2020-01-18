@@ -1,6 +1,7 @@
 package org.gpginc.ntateam.projectwkff;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -16,6 +17,8 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreferenceCompat;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.gpginc.ntateam.projectwkff.runtime.Main;
 import org.gpginc.ntateam.projectwkff.runtime.events.DefeatSupreme;
@@ -113,6 +116,13 @@ public class SettingsActivity extends BaseAppActivity implements
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.header_preferences, rootKey);
+
+            findPreference("logout").setOnPreferenceClickListener(pref -> {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getActivity(), Boot.class));
+                getActivity().finish();
+                return true;
+            });
         }
     }
 
@@ -237,7 +247,6 @@ public class SettingsActivity extends BaseAppActivity implements
                 cCategory.addPreference(rarity);
                 rarity.setDependency("default_events");
             });
-
         }
     }
 }

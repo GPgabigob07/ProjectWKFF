@@ -12,12 +12,17 @@ import org.gpginc.ntateam.projectwkff.R;
 import org.gpginc.ntateam.projectwkff.databinding.SkillBinder;
 import org.gpginc.ntateam.projectwkff.databinding.SkillLayoutChangeFieldBinding;
 import org.gpginc.ntateam.projectwkff.runtime.ClazzSkill;
+import org.gpginc.ntateam.projectwkff.runtime.Player;
+import org.gpginc.ntateam.projectwkff.runtime.util.Replay;
 import org.gpginc.ntateam.projectwkff.ui.fragments.BaseFluxFrag;
 import org.gpginc.ntateam.projectwkff.ui.widget.dialogs.MessageDialog;
 
-public class ChangePosition extends ClazzSkill 
+public class ChangePosition extends ClazzSkill
 {
     private int checked;
+    private boolean external;
+    private Player externalPlayer;
+
     public ChangePosition() {
         super(R.string.skill_change_position, PLAYER_CHANGE_FIELD, Type.MINDED);
     }
@@ -40,9 +45,15 @@ public class ChangePosition extends ClazzSkill
     public void runSkill(final ViewDataBinding bind)
     {
         final SkillBinder binder = (SkillBinder) bind;
-        if(!binder.getRES().CP().isStun) {
+        if(!external) runToPlayer(binder.getRES().CP(), binder);
+        else runToPlayer(externalPlayer, binder);
+    }
+
+    private void runToPlayer(Player p, SkillBinder binder)
+    {
+        if(!p.isStun) {
             binder.currentLayout.setDisplayedChild(this.layout);
-            checked = binder.getRES().RES.CP().getField();
+            checked = p.getField();
             final SkillLayoutChangeFieldBinding b1 = DataBindingUtil.bind(binder.currentLayout.getChildAt(1));
             View.OnClickListener listener = v -> {
                 unmarkAll(binder, b1);
@@ -54,11 +65,13 @@ public class ChangePosition extends ClazzSkill
             b1.fbtn3.setOnClickListener(listener);
             b1.fbtn4.setOnClickListener(listener);
             b1.setPlayer(binder.getRES().RES.CP());
-            b1.moveFuncBtn.setOnClickListener(v -> checkFieldChange(binder.getRES(), checked));
+            b1.moveFuncBtn.setOnClickListener(v -> checkFieldChange(binder.getRES(), checked, p));
         }
         else
         {
-            new MessageDialog.Display().withListener(() -> binder.getRES().RES.onBackPressed()).directPrompt(binder.getRES().RES.getSupportFragmentManager(), R.string.effect_efx_youarestunned);
+            new MessageDialog.Display().withListener(() -> binder.getRES().RES.onBackPressed()).directPrompt(binder.getRES().RES.getSupportFragmentManager(), externalPlayer!=null
+                                                                                                                                                              ? R.string.playerisstun
+                                                                                                                                                              : R.string.effect_efx_youarestunned);
         }
     }
 
@@ -80,22 +93,36 @@ public class ChangePosition extends ClazzSkill
             case R.id.fbtn4: b1.fbtn4.setColorFilter(b.getRES().RES.getResources().getColor(android.R.color.holo_red_dark, null), PorterDuff.Mode.SRC_ATOP); checked = 3; break;
         }
     }
-    public void checkFieldChange(final BaseFluxFrag frag, int field)
+    public void checkFieldChange(final BaseFluxFrag frag, int field, Player p)
     {
         GameFlux res = frag.RES;
-        if(res.CP().getField() == field)
+        if(p.getField() == field)
         {
-            new MessageDialog.Display().directPrompt(res.getSupportFragmentManager(), R.string.uouareinthisfield);
+            new MessageDialog.Display().directPrompt(res.getSupportFragmentManager(), externalPlayer!=null ? R.string.playerisinthisfield : R.string.uouareinthisfield);
         }
         else
         {
             new MessageDialog.Display(res, R.string.movedtofield, String.valueOf(field + 1)).withListener(() ->
             {
-                res.CP().setField(field);
+                String ac = String.format("%s: %s %s %s",
+                        res.getString(R.string.replay_movedfiel1),
+                        String.valueOf(p.getField()),
+                        res.getString(R.string.replay_movedfiel2),
+                        String.valueOf(field));
+                res.replay.addAction(p, Replay.ReplayAction.Type.STRATEGY, ac, res.currentTurn);
+                p.setField(field);
                 frag.goNext();
 
             }).prompt();
         }
+    }
+
+    public static ChangePosition external(Player p)
+    {
+        ChangePosition SK = new ChangePosition();
+        SK.externalPlayer = p;
+        SK.external = true;
+        return SK;
     }
 
     public static Creator<ChangePosition> CREATOR = new Creator<ChangePosition>() {

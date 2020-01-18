@@ -9,10 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.gpginc.ntateam.projectwkff.R;
 import org.gpginc.ntateam.projectwkff.databinding.SkillBinder;
 import org.gpginc.ntateam.projectwkff.runtime.ClazzSkill;
-import org.gpginc.ntateam.projectwkff.runtime.Main;
 import org.gpginc.ntateam.projectwkff.runtime.util.SkillUtils;
 import org.gpginc.ntateam.projectwkff.ui.widget.adapters.PlayerSelectionAdapter;
 import org.gpginc.ntateam.projectwkff.ui.widget.dialogs.MessageDialog;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AttackSwordsman extends ClazzSkill {
 
@@ -49,22 +50,23 @@ public class AttackSwordsman extends ClazzSkill {
 
                 binder.selectionLayout.skillFunc.setOnClickListener(v -> {
                     MessageDialog.Display.InheritedDialog d = new MessageDialog.Display.InheritedDialog();
-                    boolean b = true;
+                    AtomicBoolean b = new AtomicBoolean(true);
                     if (adapter.getSelectedCount() > 1) {
                         adapter.getSelected()[0].damage(1, binder.getRES().RES.CP());
                         adapter.getSelected()[1].damage(1, binder.getRES().RES.CP());
                         binder.getRES().goNext();
-                        b = false;
+                        b.set(false);
                     } else if (adapter.getSelectedCount() == 1) {
                         d.setMsg(R.string.youcanattack2player);
                         d.setOnAcceptListener(() -> {
                             adapter.getSelected()[0].damage(2, binder.getRES().RES.CP());
                             binder.getRES().goNext();
+                            b.set(true);
                         });
                     } else {
                         d.setMsg(R.string.mustselectsomeplayer);
                     }
-                    if(b)new MessageDialog.Display(binder.getRES().RES).from(d);
+                    if(b.get())new MessageDialog.Display(binder.getRES().RES).from(d);
                 });
             }
             else

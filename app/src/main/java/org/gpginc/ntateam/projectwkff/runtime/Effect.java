@@ -1,5 +1,6 @@
 package org.gpginc.ntateam.projectwkff.runtime;
 
+import android.content.res.Resources;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -104,7 +105,7 @@ public abstract class Effect implements Parcelable {
     }
 
     public int getCurrentUsages() {
-        return currentUsages;
+        return isInstaEffect() ? currentUsages + 1: currentUsages;
     }
 
     @Override
@@ -123,14 +124,33 @@ public abstract class Effect implements Parcelable {
     }
 
     public boolean still(int turn) {
-        return applyTurn < turn && (isInfinite() ? true : currentUsages > 0);
+        return applyTurn <= turn && (isInfinite() || (isInstaEffect() && currentUsages <= 0 ? applyTurn == turn : currentUsages > 0));
     }
 
     public boolean isInstaEffect() {
         return instaEffect;
     }
 
+    public String getNameAsString(Resources res)
+    {
+        return res.getString(this.name);
+    }
+
     @IntDef({BENIGNE, MALIGNE})
     public @interface EffectBehavior{}
 
+    public int getApplyTurn() {
+        return applyTurn;
+    }
+
+    @Override
+    public String toString() {
+        return "Effect{" +
+                this.getClass().getSimpleName() +
+                ", currentUsages=" + currentUsages +
+                ", applyTurn=" + applyTurn +
+                ", behavior=" + behavior +
+                ", instaEffect=" + instaEffect +
+                '}';
+    }
 }

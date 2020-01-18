@@ -25,6 +25,7 @@ public class PlayerSelectionAdapter extends RecyclerView.Adapter<PlayerSelection
     protected final int max;
     protected int selected;
     protected final boolean showNames;
+    protected boolean showFields;
 
     public PlayerSelectionAdapter(int max, boolean showNames) {
         this.max = max;
@@ -42,6 +43,7 @@ public class PlayerSelectionAdapter extends RecyclerView.Adapter<PlayerSelection
     public void onBindViewHolder(@NonNull ItemPlayerSelectable holder, int position)
     {
         holder.binder.setPlayer(players.get(position));
+        if(showFields)holder.binder.playerItemName.setText(holder.binder.playerItemName.getText() + " " +(holder.binder.getPlayer().getField() + 1));
     }
 
     @Override
@@ -73,6 +75,12 @@ public class PlayerSelectionAdapter extends RecyclerView.Adapter<PlayerSelection
             }
         }
         return s;
+    }
+
+    public PlayerSelectionAdapter showFields()
+    {
+        this.showFields = true;
+        return this;
     }
 
     public int getSelectedCount()

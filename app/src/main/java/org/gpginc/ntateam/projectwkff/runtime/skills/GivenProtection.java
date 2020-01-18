@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.gpginc.ntateam.projectwkff.R;
 import org.gpginc.ntateam.projectwkff.databinding.SkillBinder;
 import org.gpginc.ntateam.projectwkff.runtime.ClazzSkill;
+import org.gpginc.ntateam.projectwkff.runtime.util.Replay;
 import org.gpginc.ntateam.projectwkff.runtime.util.SkillUtils;
 import org.gpginc.ntateam.projectwkff.ui.widget.adapters.PlayerSelectionAdapter;
 import org.gpginc.ntateam.projectwkff.ui.widget.dialogs.MessageDialog;
@@ -47,6 +48,8 @@ public class GivenProtection extends ClazzSkill
         binder.selectionLayout.skillFunc.setOnClickListener(v -> {
             if(adapter.getSelectedCount() > 0) {
                 adapter.getSelected()[0].setProtected(true);
+                binder.getRES().RES.replay.addAction(binder.getRES().RES.CP(), Replay.ReplayAction.Type.STRATEGY, binder.getRES().getString(R.string.replay_hasprotected) + " " + adapter.getSelected()[0], binder.getRES().RES.currentTurn);
+                binder.getRES().RES.replay.addAction(adapter.getSelected()[0], Replay.ReplayAction.Type.STRATEGY, binder.getRES().getString(R.string.replay_wasprotected) + " " + binder.getRES().RES.CP(), binder.getRES().RES.currentTurn);
                 binder.getRES().goNext();
             } else {
                 new MessageDialog.Display(binder.getRES().RES, R.string.mustselectsomeplayer).prompt();

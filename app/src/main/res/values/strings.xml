@@ -253,6 +253,48 @@
     <string name="v">V</string>
     <string name="d">D</string>
     <string name="w">W</string>
+    <string name="title_activity_singup">Sign up</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="welcomeback">Welcome back!</string>
+    <string name="sign_out">Sign out</string>
+    <string name="savewar">Do you want to save a replay?</string>
+    <string name="replayname">Replay Name</string>
+    <string name="savereplaytitle">Save a Replay</string>
+    <string name="replay_attackedby">Attacked by:</string>
+    <string name="replay_killedby">Killed by:</string>
+    <string name="replay_diedbylaziness">Died by laziness.</string>
+    <string name="replay_effectstill">Still:</string>
+    <string name="replay_effectadd">Affected by:</string>
+    <string name="replay_effectantidote">Given antidote to:</string>
+    <string name="replay_attack">Had attacked:</string>
+    <string name="replay_movedfiel1">Moved from field</string>
+    <string name="replay_movedfiel2">to field</string>
+    <string name="replay_nulledattack">Has nulled attacks into this turn.</string>
+    <string name="replay_hasprotected">Has protected:</string>
+    <string name="replay_wasprotected">Was protected by:</string>
+    <string name="add_player">Add new Player</string>
+    <string name="title_activity_ad">AdActivity</string>
 
+    <string name="interstitial_ad_sample">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="start_level">Level 1</string>
+    <string name="next_level">Next Level</string>
+    <!-- -
+        This is an ad unit ID for an interstitial test ad. Replace with your own interstitial ad unit id.
+        For more information, see https://support.google.com/admob/answer/3052638
+    <!- -->
+    <!--string name="interstitial_ad_unit_id">ca-app-pub-5930422086968106/3049845141</string-->
+    <string name="interstitial_ad_unit_id">5930422086968106/3049845141</string>
+    <string name="admob_appid">ca-app-pub-5930422086968106~7699536598</string>
+    <string name="skillalreadyused">Skill already used! You need to wait one last turn to use it again!</string>
+    <string name="skill_reposition">Reposition</string>
+    <string name="playerisinthisfield">Player is already in this field!!</string>
+    <string name="playerisstun">Player is stunned!</string><!--test server-->
 
 </resources>

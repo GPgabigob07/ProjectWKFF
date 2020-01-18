@@ -22,9 +22,17 @@ import java.util.Map;
 public class _deloggerAdapter extends RecyclerView.Adapter<_deloggerAdapter._devloggerItem>
 {
     private LinkedMap<String, Integer> mMap;
+    List<String> aa = new ArrayList<>();
+    List<Integer> ii = new ArrayList<>();
 
     public _deloggerAdapter setmMap(LinkedMap<String, Integer> mMap) {
         this.mMap = mMap;
+        Util.reverseMap(mMap).forEach((S, I) ->
+        {
+            aa.add(S);
+            ii.add(I);
+        });
+        Util.wrapMapToSize(mMap, 200);
         notifyDataSetChanged();
         return this;
     }
@@ -38,13 +46,6 @@ public class _deloggerAdapter extends RecyclerView.Adapter<_deloggerAdapter._dev
 
     @Override
     public void onBindViewHolder(@NonNull _devloggerItem holder, int position) {
-        List<String> aa = new ArrayList<>();
-        List<Integer> ii = new ArrayList<>();
-        Util.reverseMap(mMap).forEach((S, I) ->
-        {
-            aa.add(S);
-            ii.add(I);
-        });
         holder.binder.setOutput(aa.get(position));
         holder.binder.setTypo(ii.get(position));
     }

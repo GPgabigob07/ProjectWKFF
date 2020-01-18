@@ -27,7 +27,11 @@ public class Blindness extends Effect {
             p.setBlind(true);
             consume();
         }
-        else p.antidote(this, t);
+        else
+        {
+            p.antidote(this, t);
+            p.setBlind(false);
+        }
     }
 
     @Override

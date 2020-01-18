@@ -46,5 +46,9 @@
         app:key="ALLDEBUG"
         app:summary="@string/label_enable_debug_log"
         app:title="@string/label_enable_debug" />
+    <Preference
+        app:icon="@drawable/ic_out"
+        app:title="@string/sign_out"
+        app:key="logout"/>
 
 </PreferenceScreen>

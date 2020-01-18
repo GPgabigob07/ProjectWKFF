@@ -6,11 +6,13 @@ import static org.gpginc.ntateam.projectwkff.GameFlux.LOG;
 import androidx.annotation.NonNull;
 import androidx.databinding.ViewDataBinding;
 
+import org.gpginc.ntateam.projectwkff.R;
 import org.gpginc.ntateam.projectwkff.runtime.ClazzSkill;
+import org.gpginc.ntateam.projectwkff.ui.widget.dialogs.MessageDialog;
 
 public abstract class TurnSkill extends ClazzSkill
 {
-    protected boolean canUse = true;
+    protected boolean canUse = true, markToShowDialog = false;
 
     public TurnSkill(int name, int layout, @NonNull Type type) {
         super(name, layout, type);
@@ -29,7 +31,14 @@ public abstract class TurnSkill extends ClazzSkill
 
     public void onTurnRun(ViewDataBinding o)
     {
+        if(markToShowDialog)markToShowDialog=false;
         if(this.canUse)runSkill(o);
-        else LOG.v("", "MUST BE USEFULL");
+        else
+        {
+            this.canUse = true;
+            this.markToShowDialog = true;
+            runSkill(o);
+            LOG.v("", "MUST BE USEFULL");
+        }
     }
 }

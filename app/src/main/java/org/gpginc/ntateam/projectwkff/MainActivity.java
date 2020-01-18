@@ -34,7 +34,7 @@ public class MainActivity extends BaseAppActivity {
 
 
     /*TEST STUFF*/
-    private ClipDrawable drawable;
+/*    private ClipDrawable drawable;
     private int mLevel = 0;
     private int ei = 1;
     private int nextLevel = 50;
@@ -56,7 +56,7 @@ public class MainActivity extends BaseAppActivity {
             mHandler.postDelayed(growth, 30);
         }
         else mHandler.removeCallbacks(growth);
-    }
+    }*/
     /*----------*/
     private ActivityMainBinding binder;
     private boolean isOpen = false;
@@ -66,6 +66,13 @@ public class MainActivity extends BaseAppActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+      /* if(!sessionLoadAdDone)
+        {
+            sessionLoadAdDone = true;
+            startActivity(new Intent(this, AdActivity.class));
+            finish();
+        }*/
+
         setTheme(darkTheme ? R.style.AppTheme_Dark_NoActionBar : R.style.AppTheme_NoActionBar);
         binder = DataBindingUtil.setContentView(this, R.layout.activity_main);
         setSupportActionBar(binder.toolbar);
@@ -79,8 +86,8 @@ public class MainActivity extends BaseAppActivity {
         binder.content.playersList.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         binder.setActivity(this);
 
-        drawable = (ClipDrawable) binder.content.bartest.getDrawable();
-        drawable.setLevel(0);
+
+        binder.content.addPlayer.setOnClickListener((v) -> inputNewPlayer(false));
 
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -302,22 +309,27 @@ public class MainActivity extends BaseAppActivity {
     {
         creator.setPlayer(PLAYERS);
     }
-    public void inputNewPlayer()
+    public void inputNewPlayer(boolean from)
     {
         final AddNewPlayer player = new AddNewPlayer();
         player.setStyle(DialogFragment.STYLE_NORMAL, darkTheme ? R.style.AppTheme_Dark : R.style.AppTheme);
         player.setOnCompleteListener(() -> {
             PLAYERS.add(player.binder.getNewPlayer());
             updatePlayesList();
-            binder.fab.performClick();
+            if(from)binder.fab.performClick();
         });
         player.setOnFailListener(() -> {
             Toast.makeText(MainActivity.this, R.string.mustaddplayername, Toast.LENGTH_SHORT).show();
-            binder.fab.performClick();
+            if(from)binder.fab.performClick();
         });
         player.show(this.getSupportFragmentManager(), "");
     }
 
+    public void removePlayer(int index)
+    {
+        this.PLAYERS.remove(index);
+        updatePlayesList();
+    }
     public void startGame(View v)
     {
         if(PLAYERS.size()>=4)
@@ -326,11 +338,8 @@ public class MainActivity extends BaseAppActivity {
             Main.prepare(PLAYERS, EVTS);
             Bundle b = new Bundle();
             b.putParcelableArrayList("PLAYERS", PLAYERS);
-            //b.putParcelableArrayList("EVENTS", EVTS);
-            b.putInt("CurrentIndex", new Random().nextInt(PLAYERS.size()));
             Intent i = new Intent(this, GameFlux.class);
             i.putExtras(b);
-            i.putExtra("dark", darkTheme);
             startActivity(i);
             finish();
         } else Toast.makeText(this, R.string.player_limit, Toast.LENGTH_SHORT).show();

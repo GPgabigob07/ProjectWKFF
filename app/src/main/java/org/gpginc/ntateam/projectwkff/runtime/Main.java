@@ -35,6 +35,7 @@ import org.gpginc.ntateam.projectwkff.runtime.skills.ChangePosition;
 import org.gpginc.ntateam.projectwkff.runtime.skills.GivenProtection;
 import org.gpginc.ntateam.projectwkff.runtime.skills.Infectious;
 import org.gpginc.ntateam.projectwkff.runtime.skills.NullDirectAttack;
+import org.gpginc.ntateam.projectwkff.runtime.skills.Reposition;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,6 +78,7 @@ public class Main
     public static final ClazzSkill GIVEN_PROTECTION;
     public static final ClazzSkill CHANGE_POSITION;
     public static final ClazzSkill NULL_ATTACK;
+    public static final ClazzSkill REPOSITION;
 
     /**
      * Special Skills
@@ -131,6 +133,7 @@ public class Main
         GIVEN_PROTECTION = new GivenProtection().base();
         CHANGE_POSITION = new ChangePosition().base();
         NULL_ATTACK = new NullDirectAttack().base();
+        REPOSITION = new Reposition().base();
         /*----------*/
         INFECTIOUS = new Infectious().base();
         /*----------*/

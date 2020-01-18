@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#1A96BE</color>
-    <color name="colorPrimaryDark">#EA873A</color>
+    <color name="colorPrimaryDark">#DED56E</color>
     <color name="colorAccent">#910FBE</color>
     <color name="item_selected">#DD2929</color>
     <color name="item_non_selected">#00FFFFFF</color>
-    <color name="blackBackgroundText">#202020</color>
+    <color name="blackBackgroundText">#373435</color>
     <color name="whiteBackgroundText">#CECDCD</color>
 </resources>

@@ -21,7 +21,7 @@ public class EffectsAdapter extends RecyclerView.Adapter<EffectsAdapter.EffectIt
 
     public EffectsAdapter(Player p)
     {
-       p.getEffects().stream().filter(e -> e.still(p.currentTurn)).forEach(EFX::add);
+       p.getEffects().stream().filter(e -> e.still((e.isInstaEffect() ? e.getApplyTurn() : p.currentTurn))).forEach(EFX::add);
     }
 
     @NonNull

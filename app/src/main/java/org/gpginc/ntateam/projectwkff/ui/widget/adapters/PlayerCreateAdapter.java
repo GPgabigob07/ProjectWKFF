@@ -12,12 +12,32 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.gpginc.ntateam.projectwkff.R;
 import org.gpginc.ntateam.projectwkff.databinding.ItemListPlayer;
+import org.gpginc.ntateam.projectwkff.runtime.Clazz;
 import org.gpginc.ntateam.projectwkff.runtime.Player;
+import org.gpginc.ntateam.projectwkff.runtime.util.Util;
+import org.gpginc.ntateam.projectwkff.runtime.util.enums.Rarity;
 
 import java.util.List;
 
 public class PlayerCreateAdapter extends RecyclerView.Adapter<PlayerCreateAdapter.ItemPlayerVH>
 {
+    private static final Player CUSTOM_VH_ADD_LOCAL_PLAYER = new Player(Util.getCrypto("CONTANT_AD_LOCALE_PLAYER"))
+    {
+        @Override
+        public Clazz getClazz() {
+            return new Clazz(060, 060, Rarity.ULTRARARE) {
+                @Override
+                public Clazz newInstance() {
+                    return null;
+                }
+
+                @Override
+                public Creator getCreator() {
+                    return null;
+                }
+            };
+        }
+    };
     private List<Player> player;
 
     @NonNull
@@ -43,6 +63,10 @@ public class PlayerCreateAdapter extends RecyclerView.Adapter<PlayerCreateAdapte
         notifyDataSetChanged();
     }
 
+    public void setNewPlayerListener(Object o) {
+    }
+
+
     public class ItemPlayerVH extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         private final ItemListPlayer binder;
@@ -57,47 +81,49 @@ public class PlayerCreateAdapter extends RecyclerView.Adapter<PlayerCreateAdapte
         @Override
         public void onClick(final View v) {
 
-            v.animate().setDuration(200).rotation(isOpen ? 0 : 135f).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                }
-            }).start();
+            if(binder.getPlayer() == CUSTOM_VH_ADD_LOCAL_PLAYER)
+            {
 
-            if(!isOpen)
-            {
-                binder.dropdown.setVisibility(View.VISIBLE);
-                binder.dropdown.setAlpha(0f);
-                //binder.dropdown.setTranslationY(0);
-                binder.dropdown.animate()
-                        .setDuration(200)
-                        .translationYBy(binder.dropdown.getHeight())
-                        .setListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                super.onAnimationEnd(animation);
-                            }
-                        }).alpha(1f)
-                        .start();
+            }else {
+                v.animate().setDuration(200).rotation(isOpen ? 0 : 135f).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                    }
+                }).start();
+
+                if (! isOpen) {
+                    binder.dropdown.setVisibility(View.VISIBLE);
+                    binder.dropdown.setAlpha(0f);
+                    //binder.dropdown.setTranslationY(0);
+                    binder.dropdown.animate()
+                            .setDuration(200)
+                            .translationYBy(binder.dropdown.getHeight())
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                }
+                            }).alpha(1f)
+                            .start();
+                } else {
+                    binder.dropdown.setVisibility(View.VISIBLE);
+                    binder.dropdown.setAlpha(1f);
+                    //binder.dropdown.setTranslationY(binder.dropdown.getHeight());
+                    binder.dropdown.animate()
+                            .setDuration(200)
+                            .translationYBy(- binder.dropdown.getHeight())
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    binder.dropdown.setVisibility(View.GONE);
+                                    super.onAnimationEnd(animation);
+                                }
+                            }).alpha(0f)
+                            .start();
+                }
+                isOpen = ! isOpen;
             }
-            else
-            {
-                binder.dropdown.setVisibility(View.VISIBLE);
-                binder.dropdown.setAlpha(1f);
-                //binder.dropdown.setTranslationY(binder.dropdown.getHeight());
-                binder.dropdown.animate()
-                        .setDuration(200)
-                        .translationYBy(-binder.dropdown.getHeight())
-                        .setListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                binder.dropdown.setVisibility(View.GONE);
-                                super.onAnimationEnd(animation);
-                            }
-                        }).alpha(0f)
-                        .start();
-            }
-            isOpen = !isOpen;
         }
     }
 }
